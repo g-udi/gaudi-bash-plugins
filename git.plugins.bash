@@ -1,6 +1,8 @@
 cite about-plugin
 about-plugin 'git helper functions'
 
+export GIT_EDITOR="vi";
+
 git_remote () {
   about 'adds remote $GIT_HOSTING:$1 to current repo'
   group 'git'
