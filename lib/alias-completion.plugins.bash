@@ -6,6 +6,7 @@
 
 cite about-plugin
 about-plugin 'Automatic completion of aliases'
+priority "365"
 
 # References:
 # How can I get bash to perform tab-completion for my aliases? http://superuser.com/a/437508/119764
