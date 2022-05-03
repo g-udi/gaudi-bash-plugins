@@ -1,0 +1,14 @@
+# Editors specific files
+.atom-build.json
+.idea
+*.sublime-workspace
+*.sublime-project
+.vscode
+
+# OS specific files (mainly OSX)
+.DS_Store
+
+# Misc. dotfiles
+.rvmrc
+*.swp
+.*.un~
