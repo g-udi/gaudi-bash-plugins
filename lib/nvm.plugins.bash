@@ -2,7 +2,7 @@
 # Please install nvm from https://github.com/creationix/nvm.git if you want to use it.
 
 cite about-plugin priority
-about-plugin 'node version manager configuration'
+about-plugin 'Node version manager configuration'
 priority "225"
 
 export NVM_DIR=${NVM_DIR:-$HOME/.nvm}

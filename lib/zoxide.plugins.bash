@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 cite about-plugin
-about-plugin 'Zoxide is a smarter cd command for your shell.'
+about-plugin 'Zoxide is a smarter cd command for your shell'
 
 if _command_exists zoxide; then
 	eval "$(zoxide init bash)"
