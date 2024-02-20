@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'one command to extract them all...'
+about-plugin 'Extractor helper functions for various archive types'
 
 
 extract () {

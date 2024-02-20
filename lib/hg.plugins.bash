@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'hg helper functions'
+about-plugin 'Mercurial helper functions'
 
 hg_dirty () {
     about 'displays dirty status of hg repository'

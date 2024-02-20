@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'svn helper functions'
+about-plugin 'SVN helper functions'
 
 rm_svn () {
   about 'remove ".svn" files from directory'

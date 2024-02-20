@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'load jenv, if you are using it'
+about-plugin 'Manage your Java environment via jenv'
 
 # Don't modify the environment if we can't find the tool:
 # - Check if in $PATH already

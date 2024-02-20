@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'load goenv, if you are using it'
+about-plugin 'Load Go version management via goenv'
 
 # Don't modify the environment if we can't find the tool:
 # - Check if in $PATH already

@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'speeds up your life by using gitstatus for git status calculations. install from https://github.com/romkatv/gitstatus'
+about-plugin 'Speeds up your life by using gitstatus for git status calculations. install from https://github.com/romkatv/gitstatus'
 
 gitstatus_on_disable () {
   about 'Destructor of gitstatus plugin'

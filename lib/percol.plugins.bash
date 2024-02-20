@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'Search&Select history with percol'
+about-plugin 'Search & Select history with percol'
 
 # Notice
 ## You have to upgrade bash to bash 4.x on Mac OS X.

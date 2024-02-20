@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'manage your nginx service'
+about-plugin 'Manage your nginx service'
 
 export NGINX_PATH='/opt/nginx'
 pathmunge $NGINX_PATH/sbin after

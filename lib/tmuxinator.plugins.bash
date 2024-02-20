@@ -1,6 +1,6 @@
 # shellcheck disable=SC1090
 
 cite about-plugin
-about-plugin 'sources tmuxinator script if available'
+about-plugin 'Sources tmuxinator script if available'
 
 [[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]] && . "$HOME/.tmuxinator/scripts/tmuxinator"

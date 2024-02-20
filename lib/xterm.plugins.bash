@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'automatically set your xterm title with host and location info'
+about-plugin 'Automatically set your xterm title with host and location info'
 
 
 _short-dirname () {
@@ -26,7 +26,3 @@ precmd () {
 preexec () {
     set_xterm_title "`_short-command $1` {`_short-dirname`} (${SHORT_USER:-${USER}}@${SHORT_HOSTNAME:-${HOSTNAME}})"
 }
-
-case "$TERM" in
-    xterm*|rxvt*) preexec_install;;
-esac

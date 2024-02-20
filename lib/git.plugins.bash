@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'git helper functions'
+about-plugin 'Git helper functions'
 
 export GIT_EDITOR="vi";
 

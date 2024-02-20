@@ -1,7 +1,7 @@
 # shellcheck disable=SC1090
 
 cite about-plugin
-about-plugin 'autojump configuration [ref: https://github.com/wting/autojump]'
+about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 
 # Only supports the Homebrew variant, Debian and Arch at the moment.
 # Feel free to provide a PR to support other install locations

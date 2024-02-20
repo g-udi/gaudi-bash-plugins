@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'ruby and rubygems specific functions and settings'
+about-plugin 'Ruby and rubygems specific functions and settings'
 
 # Make commands installed with 'gem install --user-install' available
 # ~/.gem/ruby/${RUBY_VERSION}/bin/

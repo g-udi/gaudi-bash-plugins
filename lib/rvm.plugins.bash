@@ -1,7 +1,7 @@
 # shellcheck disable=SC1090,SC2154
 
 cite about-plugin
-about-plugin 'load rvm, if you are using it'
+about-plugin 'Ruby Version Manager (RVM)'
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 

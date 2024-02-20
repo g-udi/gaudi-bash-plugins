@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'osx-specific functions'
+about-plugin 'OSX specific functions'
 
 # OS X: Open new tabs in same directory
 if [[ $(uname) = "Darwin" ]]; then

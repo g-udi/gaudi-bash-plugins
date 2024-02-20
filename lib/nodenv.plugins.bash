@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'load nodenv, if you are using it'
+about-plugin 'Load nodenv | Node.js virtual environment builder'
 
 export NODENV_ROOT="$HOME/.nodenv"
 pathmunge "$NODENV_ROOT/bin"

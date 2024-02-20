@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'load rbenv, if you are using it'
+about-plugin 'Ruby Version Manager via rbenv'
 
 export RBENV_ROOT="$HOME/.rbenv"
 pathmunge "$RBENV_ROOT/bin"

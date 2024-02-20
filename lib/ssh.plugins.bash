@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'ssh helper functions'
+about-plugin 'SSH helper functions'
 
 add_ssh () {
   about 'add entry to ssh config'

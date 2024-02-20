@@ -1,7 +1,7 @@
 # shellcheck disable=SC1090
 
 cite about-plugin
-about-plugin 'source into environment when cding to directories'
+about-plugin 'Source into environment when cding to directories'
 
 if [[ -n "${ZSH_VERSION}" ]]
 then __array_offset=0

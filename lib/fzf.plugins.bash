@@ -2,10 +2,10 @@
 
 # shellcheck disable=SC1090
 # Load after the system completion to make sure that the fzf completions are working
-# BASH_IT_LOAD_PRIORITY: 375
 
-cite about-plugin
-about-plugin 'load fzf, if you are using it'
+cite about-plugin priority
+about-plugin 'Load fzf, a Command-line fuzzy finder written in Go'
+priority "375"
 
 _command_exists fzf || return
 

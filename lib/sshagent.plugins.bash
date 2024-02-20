@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'sshagent helper functions'
+about-plugin 'SSH Agent helper functions'
 
 _get_sshagent_pid_from_env_file () {
   local env_file="${1}"

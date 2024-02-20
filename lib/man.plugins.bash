@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'colorize man pages for better readability'
+about-plugin 'Colorize man pages for better readability'
 
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'

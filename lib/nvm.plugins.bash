@@ -1,11 +1,9 @@
 # Bash-it no longer bundles nvm, as this was quickly becoming outdated.
-#
-# BASH_IT_LOAD_PRIORITY: 225
-#
 # Please install nvm from https://github.com/creationix/nvm.git if you want to use it.
 
-cite about-plugin
+cite about-plugin priority
 about-plugin 'node version manager configuration'
+priority "225"
 
 export NVM_DIR=${NVM_DIR:-$HOME/.nvm}
 # This loads nvm
@@ -19,7 +17,7 @@ fi
 if ! command -v nvm &>/dev/null
 then
   nvm () {
-    echo "Bash-it no longer bundles the nvm script. Please install the latest version from"
+    echo "gaudi-bash no longer bundles the nvm script. Please install the latest version from"
     echo ""
     echo "https://github.com/creationix/nvm.git"
     echo ""

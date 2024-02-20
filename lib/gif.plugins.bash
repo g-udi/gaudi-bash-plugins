@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'video to gif, gif to WebM helper functions'
+about-plugin 'Video to gif, gif to WebM helper functions'
 
 # Based loosely on:
 #  https://gist.github.com/SlexAxton/4989674#comment-1199058

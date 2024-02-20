@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'miscellaneous tools'
+about-plugin 'Miscellaneous tools'
 
 ips () {
     about 'display all ip addresses for this host'
@@ -136,7 +136,7 @@ usage () {
     fi
 }
 
-if [[ ! -e "${BASH_IT}/plugins/enabled/todo.plugin.bash" ]] && [[ ! -e "${BASH_IT}/plugins/enabled/*${BASH_IT_LOAD_PRIORITY_SEPARATOR}todo.plugin.bash" ]]; then
+if [[ ! -e "${BASH_IT}/plugins/enabled/todo.plugin.bash" ]] && [[ ! -e "${BASH_IT}/plugins/enabled/*${GAUDI_BASH_LOAD_PRIORITY_SEPARATOR}todo.plugin.bash" ]]; then
 # if user has installed todo plugin, skip this...
     t () {
         about 'one thing todo'

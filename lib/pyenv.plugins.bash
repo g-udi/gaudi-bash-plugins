@@ -1,5 +1,5 @@
 cite about-plugin
-about-plugin 'load pyenv, if you are using it'
+about-plugin 'Python version management via pyenv'
 
 export PYENV_ROOT="$HOME/.pyenv"
 pathmunge "$PYENV_ROOT/bin"

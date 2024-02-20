@@ -8,7 +8,7 @@
 # Jump to location by number.
 
 cite about-plugin
-about-plugin 'directory stack navigation'
+about-plugin 'Directory stack navigation'
 
 # Show directory stack
 alias d="dirs -v -l"
