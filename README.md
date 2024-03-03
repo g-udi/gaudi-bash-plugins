@@ -31,7 +31,6 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**autojump**](/lib/autojump.plugins.bash): Autojump configuration
 - [**aws**](/lib/aws.plugins.bash): AWS helper functions
 - [**base**](/lib/base.plugins.bash): Miscellaneous tools
-- [**basher**](/lib/basher.plugins.bash): Initializes basher, the shell package manager
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
 - [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
 - [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
@@ -91,5 +90,4 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**tmux**](/lib/tmux.plugins.bash): Make sure that tmux is launched in 256 color mode
 - [**tmuxinator**](/lib/tmuxinator.plugins.bash): Sources tmuxinator script if available
 - [**xterm**](/lib/xterm.plugins.bash): Automatically set your xterm title with host and location info
-- [**z_autoenv**](/lib/z_autoenv.plugins.bash): Source into environment when cding to directories
 - [**zoxide**](/lib/zoxide.plugins.bash): Zoxide is a smarter cd command for your shell.
