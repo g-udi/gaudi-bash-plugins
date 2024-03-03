@@ -1,6 +1,6 @@
 
 # shellcheck shell=bash
-# shellcheck disable=SC2154,SC1090,SC1091
+# shellcheck disable=SC2154,SC1090,SC1091,SC2145
 
 cite about-plugin priority
 about-plugin 'Automatic completion of aliases'
