@@ -23,7 +23,6 @@ priority "365"
 # Automatically add completion for all aliases to commands having completion functions
 alias_completion () {
     about 'alias_completion'
-    description 'Get bash to perfrom tab-completion on aliases'
 
 	local namespace="alias_completion"
 	local tmp_file completion_loader alias_name line completions chars
