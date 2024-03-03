@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Video to gif, gif to WebM helper functions'
 
@@ -14,7 +16,7 @@ about-plugin 'Video to gif, gif to WebM helper functions'
 #           for high quality huge files.
 v2gif () {
   about 'Converts a .mov/.avi/.mp4 file into an into an animated GIF.'
-  group 'gif'
+  group 'GIF'
   param '1: MOV/AVI/MP4 file name(s)'
   param '2: -w <num> ; Optional: max width in pixels'
   param '3: -l <num> ; Optional: extra lossy level for smaller files (80-200 make sense, needs giflossy instead of gifsicle)'
@@ -44,7 +46,6 @@ v2gif () {
     [[ -x "$getopt" ]] || { echo "No GNU-getopt found!" ; return 2 ;}
   fi
 
-  # Parse the options
   local args
 
   args=$($getopt -l "alert:" -l "lossy:" -l "width:" -l del,delete -l high -l tag -l "fps:" -l webm -o "a:l:w:f:dhmt" -- "$@")
@@ -198,7 +199,7 @@ v2gif () {
 
 any2webm () {
   about 'Converts an movies and Animated GIF files into an into a modern quality WebM video.'
-  group 'gif'
+  group 'GIF'
   param '1: GIF/video file name(s)'
   param '2: -s <WxH> ; Optional: set <W>idth and <H>eight in pixels'
   param '3: -d       ; Optional: delete the original file if succeeded'

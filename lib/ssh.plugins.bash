@@ -1,11 +1,10 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'SSH helper functions'
 
 add_ssh () {
-  about 'add entry to ssh config'
-  param '1: host'
-  param '2: hostname'
-  param '3: user'
+  about 'Add entry to ssh config (host|hostname|user)'
   group 'ssh'
 
   [[ $# -ne 3 ]] && echo "add_ssh host hostname user" && return 1
@@ -15,14 +14,14 @@ add_ssh () {
 }
 
 sshlist () {
-  about 'list hosts defined in ssh config'
+  about 'List hosts defined in ssh config'
   group 'ssh'
 
   awk '$1 ~ /Host$/ {for (i=2; i<=NF; i++) print $i}' ~/.ssh/config
 }
 
 ssh-add-all () {
-  about 'add all ssh private keys to agent'
+  about 'Add all ssh private keys to agent'
   group 'ssh'
 
   grep -slR "PRIVATE" ~/.ssh | xargs ssh-add

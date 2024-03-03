@@ -1,9 +1,8 @@
-# Bash-it no longer bundles nvm, as this was quickly becoming outdated.
-# Please install nvm from https://github.com/creationix/nvm.git if you want to use it.
+# shellcheck shell=bash
 
 cite about-plugin priority
 about-plugin 'Node version manager configuration'
-priority "225"
+priority "250"
 
 export NVM_DIR=${NVM_DIR:-$HOME/.nvm}
 # This loads nvm

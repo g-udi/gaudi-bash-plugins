@@ -1,24 +1,23 @@
+# shellcheck shell=bash
 cite about-plugin
 about-plugin 'Encoding and decoding functions'
 
 escape () {
     about 'UTF-8-encode a string of Unicode symbols'
-    group 'encode'
+    group 'Encode'
 
     printf "\\\x%s" "$(printf "$@" | xxd -p -c1 -u)";
-    # print a newline unless we’re piping the output to another program
     if [[ -t 1 ]]; then
-        echo ""; # newline
+        echo "";
     fi;
 }
 
 unidecode () {
     about 'Decode \x{ABCD}-style Unicode escape sequences'
-    group 'encode'
+    group 'Encode'
 
     perl -e "binmode(STDOUT, ':utf8'); print \"$*\"";
-    # print a newline unless we’re piping the output to another program
     if [[ -t 1 ]]; then
-        echo ""; # newline
+        echo "";
     fi;
 }

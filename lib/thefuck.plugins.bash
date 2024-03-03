@@ -1,3 +1,4 @@
+# shellcheck shell=bash
 # shellcheck disable=SC2046
 
 cite about-plugin

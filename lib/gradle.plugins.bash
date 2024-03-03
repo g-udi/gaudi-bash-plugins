@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Add a gw command to use gradle wrapper if present, else use system gradle'
 

@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Manage your Java environment via jenv'
 

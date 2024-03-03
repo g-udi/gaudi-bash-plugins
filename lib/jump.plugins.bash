@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Initialize jump (see https://github.com/gsamokovarov/jump). Add `export JUMP_OPTS=("--bind=z")` to change keybinding'
 

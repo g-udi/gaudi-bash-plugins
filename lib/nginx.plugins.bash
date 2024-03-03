@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Manage your nginx service'
 
@@ -5,7 +7,7 @@ export NGINX_PATH='/opt/nginx'
 pathmunge $NGINX_PATH/sbin after
 
 nginx_reload () {
-  about 'reload your nginx config'
+  about 'Reload your nginx config'
   group 'nginx'
 
   FILE="${NGINX_PATH}/logs/nginx.pid"
@@ -20,7 +22,7 @@ nginx_reload () {
 }
 
 nginx_stop () {
-  about 'stop nginx'
+  about 'Stop nginx'
   group 'nginx'
 
   FILE="${NGINX_PATH}/logs/nginx.pid"
@@ -35,7 +37,7 @@ nginx_stop () {
 }
 
 nginx_start () {
-  about 'start nginx'
+  about 'Start nginx'
   group 'nginx'
 
   FILE="${NGINX_PATH}/sbin/nginx"
@@ -48,7 +50,7 @@ nginx_start () {
 }
 
 nginx_restart () {
-  about 'restart nginx'
+  about 'Restart nginx'
   group 'nginx'
 
   FILE="${NGINX_PATH}/logs/nginx.pid"

@@ -1,10 +1,11 @@
 
 
+# shellcheck shell=bash
 # shellcheck disable=SC1090
-# Load after the system completion to make sure that the fzf completions are working
 
 cite about-plugin priority
 about-plugin 'Load fzf, a Command-line fuzzy finder written in Go'
+# Load after the system completion to make sure that the fzf completions are working
 priority "375"
 
 _command_exists fzf || return
@@ -21,7 +22,7 @@ fi
 
 fe () {
   about "Open the selected file in the default editor"
-  group "fzf"
+  group "FZF"
   param "1: Search term"
   example "fe foo"
 
@@ -33,7 +34,7 @@ fe () {
 
 fcd () {
   about "cd to the selected directory"
-  group "fzf"
+  group "FZF"
   param "1: Directory to browse, or . if omitted"
   example "fcd aliases"
 

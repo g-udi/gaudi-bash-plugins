@@ -1,10 +1,11 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Helper functions for using docker-compose'
 
 docker-compose-fresh () {
   about 'Shut down, remove and start again the docker-compose setup, then tail the logs'
   group 'docker-compose'
-  param '1: name of the docker-compose.yaml file to use (optional). Default: docker-compose.yaml'
   example 'docker-compose-fresh docker-compose-foo.yaml'
 
   local DCO_FILE_PARAM=""

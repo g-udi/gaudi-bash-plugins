@@ -1,10 +1,11 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'SVN helper functions'
 
 rm_svn () {
-  about 'remove ".svn" files from directory'
-  param '1: directory to search for files'
-  group 'svn'
+  about 'Remove ".svn" files from directory'
+  group 'SVN'
 
   if [[ -z "$1" ]]; then
       reference rm_svn
@@ -14,8 +15,8 @@ rm_svn () {
 }
 
 svn_add () {
-    about 'add to svn repo'
-    group 'svn'
+    about 'Add to svn repo'
+    group 'SVN'
 
     svn status | grep '^\?' | sed -e 's/? *//' | sed -e 's/ /\ /g' | xargs svn add
 }

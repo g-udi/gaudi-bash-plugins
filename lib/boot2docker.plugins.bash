@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Helpers to get Docker setup correctly for boot2docker'
 

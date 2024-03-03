@@ -1,18 +1,10 @@
+# shellcheck shell=bash
 # shellcheck disable=SC1090
-
-# Directory stack navigation:
-#
-# Add to stack with: pu /path/to/directory
-# Delete current dir from stack with: po
-# Show stack with: d
-# Jump to location by number.
 
 cite about-plugin
 about-plugin 'Directory stack navigation'
 
-# Show directory stack
 alias d="dirs -v -l"
-
 # Change to location in stack by number
 alias 1="pushd"
 alias 2="pushd +2"
@@ -34,8 +26,8 @@ alias pu="pushd"
 alias po="popd"
 
 dirs-help () {
-  about 'directory navigation alias usage'
-  group 'dirs'
+  about 'Directory navigation alias usage'
+  group 'Dirs'
 
   echo "Directory Navigation Alias Usage"
   echo
@@ -58,8 +50,6 @@ dirs-help () {
 }
 
 # Add bookmarking functionality
-# Usage:
-
 if [[ ! -f ~/.dirs ]]; then  # if doesn't exist, create it
     touch ~/.dirs
 else
@@ -68,22 +58,20 @@ fi
 
 alias L='cat ~/.dirs'
 
-# goes to destination dir, otherwise stay in the dir
+# Goes to destination dir, otherwise stay in the dir
 G () {
-    about 'goes to destination dir'
-    param '1: directory'
+    about 'Goes to destination dir'
     example '$ G ..'
-    group 'dirs'
+    group 'Dirs'
 
     cd "${1:-$(pwd)}" || return ;
 }
 
-# save a bookmark
+# Save a bookmark
 S () {
     about 'save a bookmark'
-    param '1: bookmark name'
     example '$ S mybkmrk'
-    group 'dirs'
+    group 'Dirs'
 
     [[ $# -eq 1 ]] || { echo "${FUNCNAME[0]} function requires 1 argument"; return 1; }
 
@@ -93,12 +81,11 @@ S () {
     source ~/.dirs ;
 }
 
-# remove a bookmark
+# Remove a bookmark
 R () {
-    about 'remove a bookmark'
-    param '1: bookmark name'
+    about 'Remove a bookmark'
     example '$ R mybkmrk'
-    group 'dirs'
+    group 'Dirs'
 
     [[ $# -eq 1 ]] || { echo "${FUNCNAME[0]} function requires 1 argument"; return 1; }
 

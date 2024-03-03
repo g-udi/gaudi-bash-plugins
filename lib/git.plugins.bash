@@ -1,10 +1,12 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Git helper functions'
 
 export GIT_EDITOR="vi";
 
 git_remote () {
-  about 'adds remote $GIT_HOSTING:$1 to current repo'
+  about 'Adds remote $GIT_HOSTING:$1 to current repo'
   group 'git'
 
   echo "Running: git remote add origin ${GIT_HOSTING}:$1.git"
@@ -12,7 +14,7 @@ git_remote () {
 }
 
 git_first_push () {
-  about 'push into origin refs/heads/master'
+  about 'Push into origin refs/heads/master'
   group 'git'
 
   echo "Running: git push origin master:refs/heads/master"
@@ -20,7 +22,7 @@ git_first_push () {
 }
 
 git_pub () {
-  about 'publishes current branch to remote origin'
+  about 'Publishes current branch to remote origin'
   group 'git'
   BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
@@ -29,7 +31,7 @@ git_pub () {
 }
 
 git_revert () {
-  about 'applies changes to HEAD that revert all changes after this commit'
+  about 'Applies changes to HEAD that revert all changes after this commit'
   group 'git'
 
   git reset $1
@@ -39,7 +41,7 @@ git_revert () {
 }
 
 git_rollback () {
-  about 'resets the current HEAD to this commit'
+  about 'Resets the current HEAD to this commit'
   group 'git'
 
   is_clean () {
@@ -106,7 +108,7 @@ git_rollback () {
 }
 
 git_remove_missing_files () {
-  about "git rm's missing files"
+  about "Git rm's missing files"
   group 'git'
 
   git ls-files -d -z | xargs -0 git update-index --remove
@@ -114,15 +116,14 @@ git_remove_missing_files () {
 
 # Adds files to git's exclude file (same as .gitignore)
 local-ignore () {
-  about 'adds file or path to git exclude file'
-  param '1: file or path fragment to ignore'
+  about 'Adds file or path to git exclude file'
   group 'git'
   echo "$1" >> .git/info/exclude
 }
 
 # get a quick overview for your git repo
 git_info () {
-    about 'overview for your git repo'
+    about 'Overview for your git repo'
     group 'git'
 
     if [[ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]]; then
@@ -159,7 +160,7 @@ git_info () {
 }
 
 git_stats () {
-    about 'display stats per author'
+    about 'Display stats per author'
     group 'git'
 
 # awesome work from https://github.com/esc/git-stats
@@ -203,7 +204,6 @@ fi
 gittowork () {
   about 'Places the latest .gitignore file for a given project type in the current directory, or concatenates onto an existing .gitignore'
   group 'git'
-  param '1: the language/type of the project, used for determining the contents of the .gitignore file'
   example '$ gittowork java'
 
   result=$(curl -L "https://www.gitignore.io/api/$1" 2>/dev/null)

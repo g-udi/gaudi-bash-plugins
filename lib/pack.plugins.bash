@@ -1,6 +1,7 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'CNB pack cli aliases'
-
 
 __pack_debug()
 {

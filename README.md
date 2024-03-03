@@ -2,6 +2,29 @@
 
 This repo contains a submodule for [gaudi-bash](https://github.com/g-udi/gaudi-bash) with all the plugins it loads.
 
+The plugins can make use of the [helper functions](https://github.com/g-udi/gaudi-bash/blob/master/lib/helpers/utils.bash) of gaudi-bash:
+- `_is_function`: check if the passed parameter is a function
+- `_command_exists`: check if the command passed as the argument exists
+- `_completion_exists`: check if the completion function passed as the argument exists
+- `_binary_exists`: check if the binary passed as the argument exists
+- `_read_input`: reads input from the prompt for a yes/no (one character) input
+- `_array-contains`: searches an array for an exact match against the term passed as the first argument to the function. The function exits as soon as a match is found
+- `_array-dedupe`: creates a concatenated array of unique and sorted elements
+- `_clean-string`: cleans a string from whitespace given a passed cleaning mode
+
+## Checklist
+
+- [ ] Make sure to have `# shellcheck shell=bash` at the top of every file and have an empty newline after
+- [ ] Make sure to have the `cite about-plugin`
+- [ ] Make sure to fill in a description of the alias in the `about-plugin`
+
+ ```bash
+# shellcheck shell=bash
+
+cite about-plugin
+about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
+ ```
+
 ## Plugins
 
 - [**alias-completion**](/lib/alias-completion.plugins.bash): Automatic completion of aliases
@@ -11,8 +34,8 @@ This repo contains a submodule for [gaudi-bash](https://github.com/g-udi/gaudi-b
 - [**basher**](/lib/basher.plugins.bash): Initializes basher, the shell package manager
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
 - [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
-- [**browser**](/lib/browser.plugins.bash): render commandline output in your browser (based on https://gist.github.com/318247)
 - [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
+- [**chruby**](/lib/chruby.plugins.bash): Load chruby from `/usr/local/share/chruby`
 - [**compress**](/lib/compress.plugins.bash): Compression tools
 - [**direnv**](/lib/direnv.plugins.bash): Load [direnv](https://direnv.net/)
 - [**dirs**](/lib/dirs.plugins.bash): Directory stack navigation
@@ -52,7 +75,6 @@ This repo contains a submodule for [gaudi-bash](https://github.com/g-udi/gaudi-b
 - [**pipx**](/lib/pipx.plugins.bash): Install and Run Python Applications in Isolated Environments
 - [**postgres**](/lib/postgres.plugins.bash): Postgres helper functions
 - [**powerline**](/lib/powerline.plugins.bash): Enables powerline daemon
-- [**projects**](/lib/projects.plugins.bash): Quickly navigate configured paths with `pj` and `pjo`. example: `export PROJECT_PATHS=~/projects:~/work/projects`
 - [**proxy**](/lib/proxy.plugins.bash): Proxy Tools
 - [**pyenv**](/lib/pyenv.plugins.bash): Python version management via pyenv
 - [**pygmentize**](/lib/pygmentize.plugins.bash):.plugins.bash pygmentize instead of cat to terminal if possible

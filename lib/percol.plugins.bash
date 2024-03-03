@@ -1,16 +1,9 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Search & Select history with percol'
 
-# Notice
-## You have to upgrade bash to bash 4.x on Mac OS X.
-## http://stackoverflow.com/questions/16416195/how-do-i-upgrade-bash-in-mac-osx-mountain-lion-and-set-it-the-correct-path
-
-# Install
-## (sudo) pip install percol
-## bash-it enable percol
-
-# Usage
-## C-r to search&select from history
+# Notice: You have to upgrade bash to bash 4.x on Mac OS X (http://stackoverflow.com/questions/16416195/how-do-i-upgrade-bash-in-mac-osx-mountain-lion-and-set-it-the-correct-path)
 
 _replace_by_history () {
     if command -v tac>/dev/null; then

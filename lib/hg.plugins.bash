@@ -1,8 +1,10 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Mercurial helper functions'
 
 hg_dirty () {
-    about 'displays dirty status of hg repository'
+    about 'Displays dirty status of hg repository'
     group 'hg'
 
     hg status --no-color 2> /dev/null \
@@ -11,7 +13,7 @@ hg_dirty () {
 }
 
 hg_in_repo () {
-    about 'determine if pwd is an hg repo'
+    about 'Determine if pwd is an hg repo'
     group 'hg'
 
     [[ `hg branch 2> /dev/null` ]] && echo 'on '

@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Zoxide is a smarter cd command for your shell'
 

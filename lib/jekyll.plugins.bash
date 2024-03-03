@@ -1,10 +1,11 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Manage your jekyll site'
 
 function editpost() {
-	about 'edit a post'
-	param '1: site directory'
-	group 'jekyll'
+	about 'Edit a post'
+	group 'Jekyll'
 
 	local SITE site POST DATE TITLE POSTS
 	local -i COUNTER=1 POST_TO_EDIT ret
@@ -44,9 +45,8 @@ function editpost() {
 }
 
 function newpost() {
-	about 'create a new post'
-	param '1: site directory'
-	group 'jekyll'
+	about 'Create a new post'
+	group 'Jekyll'
 
 	local SITE site FNAME_POST_TITLE FNAME YAML_DATE
 	local JEKYLL_FORMATTING FNAME_DATE OPTIONS OPTION POST_TYPE POST_TITLE
@@ -182,9 +182,8 @@ function newpost() {
 }
 
 function testsite() {
-	about 'launches local jekyll server'
-	param '1: site directory'
-	group 'jekyll'
+	about 'Launches local jekyll server'
+	group 'Jekyll'
 
 	local SITE site
 	local -i ret
@@ -214,9 +213,8 @@ function testsite() {
 }
 
 function buildsite() {
-	about 'builds site'
-	param '1: site directory'
-	group 'jekyll'
+	about 'Builds site'
+	group 'Jekyll'
 
 	local SITE site
 	local -i ret
@@ -247,9 +245,8 @@ function buildsite() {
 }
 
 function deploysite() {
-	about 'rsyncs site to remote host'
-	param '1: site directory'
-	group 'jekyll'
+	about 'rSyncs site to remote host'
+	group 'Jekyll'
 
 	local SITE site REMOTE
 	local -i loc=0 ret

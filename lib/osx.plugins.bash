@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'OSX specific functions'
 
@@ -14,8 +16,8 @@ if [[ $(uname) = "Darwin" ]]; then
 fi
 
 tab () {
-  about 'opens a new terminal tab'
-  group 'osx'
+  about 'Opens a new terminal tab'
+  group 'OSX'
 
   osascript 2>/dev/null <<EOF
     tell application "System Events"
@@ -41,10 +43,9 @@ winname () {
 # this one switches your os x dock between 2d and 3d
 # thanks to savier.zwetschge.org
 dock-switch () {
-    about 'switch dock between 2d and 3d'
-    param '1: "2d" or "3d"'
+    about 'Switch dock between 2d and 3d'
     example '$ dock-switch 2d'
-    group 'osx'
+    group 'OSX'
 
     if [[ $(uname) = "Darwin" ]]; then
 
@@ -67,10 +68,9 @@ dock-switch () {
 }
 
 pman () {
-    about 'view man documentation in Preview'
-    param '1: man page to view'
+    about 'View man documentation in Preview'
     example '$ pman bash'
-    group 'osx'
+    group 'OSX'
     man -t "${1}" | open -fa $PREVIEW
 }
 
@@ -78,15 +78,14 @@ pri () {
     about 'display information about Ruby classes, modules, or methods, in Preview'
     param '1: Ruby method, module, or class'
     example '$ pri Array'
-    group 'osx'
+    group 'OSX'
     ri -T "${1}" | open -fa $PREVIEW
 }
 
 # Download a file and open it in Preview
 prevcurl () {
-  about 'download a file and open it in Preview'
-  param '1: url'
-  group 'osx'
+  about 'Download a file and open it in Preview'
+  group 'OSX'
 
   if [[ ! $(uname) = "Darwin" ]]
   then
@@ -99,7 +98,7 @@ prevcurl () {
 refresh-launchpad () {
   about 'Reset launchpad layout in macOS'
   example '$ refresh-launchpad'
-  group 'osx'
+  group 'OSX'
 
   if [[ $(uname) = "Darwin" ]];then
     defaults write com.apple.dock ResetLaunchPad -bool TRUE
@@ -112,7 +111,7 @@ refresh-launchpad () {
 list-jvms () {
   about 'List java virtual machines and their states in macOS'
   example 'list-jvms'
-  group 'osx'
+  group 'OSX'
 
   JVMS_DIR="/Library/Java/JavaVirtualMachines"
   JVMS=( $(ls ${JVMS_DIR}) )

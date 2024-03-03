@@ -1,6 +1,7 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Extractor helper functions for various archive types'
-
 
 extract () {
     local opt

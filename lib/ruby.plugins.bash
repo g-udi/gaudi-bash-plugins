@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Ruby and rubygems specific functions and settings'
 
@@ -8,9 +10,8 @@ if which ruby >/dev/null && which gem >/dev/null; then
 fi
 
 remove_gem () {
-  about 'removes installed gem'
-  param '1: installed gem name'
-  group 'ruby'
+  about 'Removes installed gem'
+  group 'Ruby'
 
   gem list | grep $1 | awk '{ print $1; }' | xargs sudo gem uninstall
 }

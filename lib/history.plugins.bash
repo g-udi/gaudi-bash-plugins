@@ -1,14 +1,16 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'history manipulation'
 
 _bash_history_sync () {
-  builtin history -a         #1
-  HISTFILESIZE=$HISTSIZE     #2
-  builtin history -c         #3
-  builtin history -r         #4
+  builtin history -a         
+  HISTFILESIZE=$HISTSIZE     
+  builtin history -c         
+  builtin history -r         
 }
 
-history () {                  #5
+history () {
   _bash_history_sync
   builtin history "$@"
 }
