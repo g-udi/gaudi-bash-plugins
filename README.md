@@ -28,12 +28,14 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 ## Plugins
 
 - [**alias-completion**](/lib/alias-completion.plugins.bash): Automatic completion of aliases
+- [**atuin**](/lib/atuin.bash): Load Atuin! The magical shell history via ble.sh
 - [**autojump**](/lib/autojump.plugins.bash): Autojump configuration
 - [**aws**](/lib/aws.plugins.bash): AWS helper functions
 - [**base**](/lib/base.plugins.bash): Miscellaneous tools
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
 - [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
 - [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
+- [**brew**](/lib/brew.bash): Make sure that brew is accessible and exported properly in your shell
 - [**chruby**](/lib/chruby.plugins.bash): Load chruby from `/usr/local/share/chruby`
 - [**compress**](/lib/compress.plugins.bash): Compression tools
 - [**direnv**](/lib/direnv.plugins.bash): Load [direnv](https://direnv.net/)
