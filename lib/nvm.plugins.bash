@@ -1,27 +1,42 @@
 # shellcheck shell=bash
+# shellcheck disable=SC1090
 
 cite about-plugin priority
-about-plugin 'Node version manager configuration'
+about-plugin 'Node version manager configuration (lazy-loaded for fast startup)'
 priority "250"
 
-export NVM_DIR=${NVM_DIR:-$HOME/.nvm}
-# This loads nvm
-if command -v brew &>/dev/null && [[ -s $(brew --prefix nvm)/nvm.sh ]]
-then
-  . $(brew --prefix nvm)/nvm.sh
-else
-  [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
-fi
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
 
-if ! command -v nvm &>/dev/null
-then
-  nvm () {
-    echo "gaudi-bash no longer bundles the nvm script. Please install the latest version from"
-    echo ""
-    echo "https://github.com/creationix/nvm.git"
-    echo ""
-    echo "if you want to use nvm. You can keep this plugin enabled once you have installed nvm."
-  }
+# Lazy-load nvm: define stub functions that load the real nvm on first use.
+# This avoids sourcing nvm.sh at shell startup (~200ms savings).
 
-  nvm
-fi
+_gaudi_nvm_load() {
+	# Remove the stub functions first to avoid recursion
+	unset -f nvm node npm npx yarn pnpm corepack 2> /dev/null
+
+	# Find and source the real nvm.sh
+	local nvm_sh=""
+	if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+		nvm_sh="$NVM_DIR/nvm.sh"
+	elif [[ -n "${GAUDI_BASH_HOMEBREW_PREFIX:-}" ]] && [[ -s "$GAUDI_BASH_HOMEBREW_PREFIX/opt/nvm/nvm.sh" ]]; then
+		nvm_sh="$GAUDI_BASH_HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+	fi
+
+	if [[ -n "$nvm_sh" ]]; then
+		source "$nvm_sh"
+		# Load nvm bash completion if available
+		[[ -s "${nvm_sh%/*}/bash_completion" ]] && source "${nvm_sh%/*}/bash_completion"
+	else
+		echo "gaudi-bash: nvm not found. Install from https://github.com/nvm-sh/nvm"
+		return 1
+	fi
+}
+
+# Create stub functions for common Node commands that trigger lazy loading
+nvm() { _gaudi_nvm_load && nvm "$@"; }
+node() { _gaudi_nvm_load && node "$@"; }
+npm() { _gaudi_nvm_load && npm "$@"; }
+npx() { _gaudi_nvm_load && npx "$@"; }
+yarn() { _gaudi_nvm_load && yarn "$@"; }
+pnpm() { _gaudi_nvm_load && pnpm "$@"; }
+corepack() { _gaudi_nvm_load && corepack "$@"; }
