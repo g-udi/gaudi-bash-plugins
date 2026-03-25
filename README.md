@@ -28,15 +28,17 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 ## Plugins
 
 - [**alias-completion**](/lib/alias-completion.plugins.bash): Automatic completion of aliases
-- [**atuin**](/lib/atuin.bash): Load Atuin! The magical shell history via ble.sh
+- [**atuin**](/lib/atuin.plugins.bash): Load Atuin! The magical shell history via ble.sh
 - [**autojump**](/lib/autojump.plugins.bash): Autojump configuration
 - [**aws**](/lib/aws.plugins.bash): AWS helper functions
 - [**base**](/lib/base.plugins.bash): Miscellaneous tools
+- [**basher**](/lib/basher.plugins.bash): Initializes basher, the shell package manager
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
 - [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
-- [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
-- [**brew**](/lib/brew.bash): Make sure that brew is accessible and exported properly in your shell
+- [**brew**](/lib/brew.plugins.bash): Make sure that brew is accessible and exported properly in your shell
 - [**chruby**](/lib/chruby.plugins.bash): Load chruby from `/usr/local/share/chruby`
+- [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
+- [**cmd-returned-notify**](/lib/cmd-returned-notify.plugins.bash): Alert (BEL) when a command takes longer than a threshold to complete
 - [**compress**](/lib/compress.plugins.bash): Compression tools
 - [**direnv**](/lib/direnv.plugins.bash): Load [direnv](https://direnv.net/)
 - [**dirs**](/lib/dirs.plugins.bash): Directory stack navigation
@@ -47,6 +49,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**encode**](/lib/encode.plugins.bash): Encoding and decoding functions
 - [**explain**](/lib/explain.plugins.bash): mankier.com explain function to explain other commands
 - [**extract**](/lib/extract.plugins.bash): Extractor helper functions for various archive types
+- [**fasd**](/lib/fasd.plugins.bash): load fasd, if you are using it
 - [**fzf**](/lib/fzf.plugins.bash): Load fzf, a Command-line fuzzy finder written in Go
 - [**gif**](/lib/gif.plugins.bash): Video to gif, gif to WebM helper functions
 - [**git-subrepo**](/lib/git-subrepo.plugins.bash): Loads Git Submodule Alternative via git-subrepo and initialize completions
@@ -57,6 +60,8 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**gradle**](/lib/gradle.plugins.bash): Add a gw command to use gradle wrapper if present, else use system gradle
 - [**hg**](/lib/hg.plugins.bash): Mercurial helper functions
 - [**history**](/lib/history.plugins.bash): history manipulation
+- [**history-eternal**](/lib/history-eternal.plugins.bash): eternal bash history
+- [**history-substring-search**](/lib/history-substring-search.plugins.bash): search history using the substring already entered
 - [**hub**](/lib/hub.plugins.bash): Load GitHub support to git on the command-line via hub
 - [**java**](/lib/java.plugins.bash): Java and JAR helper functions
 - [**jekyll**](/lib/jekyll.plugins.bash): Manage your jekyll site
@@ -68,8 +73,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**man**](/lib/man.plugins.bash): Colorize man pages for better readability
 - [**nginx**](/lib/nginx.plugins.bash): Manage your nginx service
 - [**node**](/lib/node.plugins.bash): Node.js helper functions
-- [**nodenv**](/lib/nodenv.plugins.bash): Load nodenv | Node.js virtual environment builder
-- [**nvm**](/lib/nvm.plugins.bash): Node version manager configuration
+- [**nvm**](/lib/nvm.plugins.bash): Node version manager configuration (lazy-loaded for fast startup)
 - [**osx**](/lib/osx.plugins.bash): OSX specific functions
 - [**pack**](/lib/pack.plugins.bash): CNB pack cli aliases
 - [**percol**](/lib/percol.plugins.bash): Search & Select history with percol
@@ -77,8 +81,9 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**postgres**](/lib/postgres.plugins.bash): Postgres helper functions
 - [**powerline**](/lib/powerline.plugins.bash): Enables powerline daemon
 - [**proxy**](/lib/proxy.plugins.bash): Proxy Tools
-- [**pyenv**](/lib/pyenv.plugins.bash): Python version management via pyenv
-- [**pygmentize**](/lib/pygmentize.plugins.bash):.plugins.bash pygmentize instead of cat to terminal if possible
+- [**pyenv**](/lib/pyenv.plugins.bash): Python version management via pyenv (lazy-loaded for fast startup)
+- [**pygmentize**](/lib/pygmentize.plugins.bash): pygmentize instead of cat to terminal if possible
+- [**python**](/lib/python.plugins.bash): alias "shttp" to SimpleHTTPServer
 - [**rails**](/lib/rails.plugins.bash): Helper functions for Ruby on Rails
 - [**rbenv**](/lib/rbenv.plugins.bash): Ruby Version Manager via rbenv
 - [**ruby**](/lib/ruby.plugins.bash): Ruby and rubygems specific functions and settings
@@ -88,8 +93,10 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**ssh**](/lib/ssh.plugins.bash): SSH helper functions
 - [**sshagent**](/lib/sshagent.plugins.bash): SSH Agent helper functions
 - [**subversion**](/lib/subversion.plugins.bash): SVN helper functions
+- [**sudo**](/lib/sudo.plugins.bash): Toggle sudo at the beginning of the current or the previous command by hitting the ESC key twice
 - [**thefuck**](/lib/thefuck.plugins.bash): Initialization for fuck
 - [**tmux**](/lib/tmux.plugins.bash): Make sure that tmux is launched in 256 color mode
 - [**tmuxinator**](/lib/tmuxinator.plugins.bash): Sources tmuxinator script if available
+- [**url**](/lib/url.plugins.bash): Basic url handling and manipulation functions
 - [**xterm**](/lib/xterm.plugins.bash): Automatically set your xterm title with host and location info
 - [**zoxide**](/lib/zoxide.plugins.bash): Zoxide is a smarter cd command for your shell.
