@@ -15,7 +15,7 @@ fi
 # No need to continue if the command is not present
 _command_exists fzf || return
 
-if [ -z ${FZF_DEFAULT_COMMAND+x}  ] && _command_exists fd ; then
+if [ -z ${FZF_DEFAULT_COMMAND+x}  ] && _binary_exists fd ; then
   export FZF_DEFAULT_COMMAND='fd --type f'
 fi
 

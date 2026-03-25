@@ -6,6 +6,6 @@ about-plugin 'Initialization for fuck'
 
 # https://github.com/nvbn/thefuck
 
-if _command_exists thefuck; then
+if _binary_exists thefuck; then
   eval $(thefuck --alias)
 fi
