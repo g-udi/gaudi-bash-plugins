@@ -60,8 +60,6 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**gradle**](/lib/gradle.plugins.bash): Add a gw command to use gradle wrapper if present, else use system gradle
 - [**hg**](/lib/hg.plugins.bash): Mercurial helper functions
 - [**history**](/lib/history.plugins.bash): history manipulation
-- [**history-eternal**](/lib/history-eternal.plugins.bash): eternal bash history
-- [**history-substring-search**](/lib/history-substring-search.plugins.bash): search history using the substring already entered
 - [**hub**](/lib/hub.plugins.bash): Load GitHub support to git on the command-line via hub
 - [**java**](/lib/java.plugins.bash): Java and JAR helper functions
 - [**jekyll**](/lib/jekyll.plugins.bash): Manage your jekyll site
