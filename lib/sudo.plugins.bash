@@ -18,6 +18,6 @@ function sudo-command-line() {
 # Define shortcut keys: [Esc] [Esc]
 
 # Readline library requires bash version 4 or later
-if [ "${BASH_VERSINFO[0]}" -ge 4 ]; then
+if [[ $- == *i* ]] && [ "${BASH_VERSINFO[0]}" -ge 4 ] && command -v bind > /dev/null 2>&1; then
 	bind -x '"\e\e": sudo-command-line'
 fi

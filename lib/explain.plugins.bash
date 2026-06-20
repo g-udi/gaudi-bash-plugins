@@ -10,7 +10,7 @@ explain () {
   group 'Explain'
 
   if [[ "$#" -eq 0 ]]; then
-    while read  -p "Command: " cmd; do
+    while read -r -p "Command: " cmd; do
       curl -Gs "https://www.mankier.com/api/explain/?cols=""$(tput cols)" --data-urlencode "q=$cmd"
     done
     echo "Bye!"
@@ -22,4 +22,3 @@ explain () {
     echo "explain 'cmd -o | ...'   one quoted command to explain it."
   fi
 }
-

@@ -30,11 +30,10 @@ myip () {
     about 'Displays your ip address, as seen by the Internet'
     group 'Misc'
 
+    local list res url
     list=("http://myip.dnsomatic.com/" "http://checkip.dyndns.com/" "http://checkip.dyndns.org/")
-    for url in ${list[*]}
-    do
-        res=$(curl -fs "${url}")
-        if [[ $? -eq 0 ]];then
+    for url in "${list[@]}"; do
+        if res=$(curl -fs "${url}"); then
             break;
         fi
     done
@@ -47,11 +46,19 @@ pickfrom () {
     example '$ pickfrom /usr/share/dict/words'
     group 'Misc'
 
-    local file=$1
-    [[ -z "$file" ]] && reference $FUNCNAME && return
-    length=$(cat $file | wc -l)
-    n=$(expr $RANDOM \* $length \/ 32768 + 1)
-    head -n $n $file | tail -1
+    local file=$1 length n
+    [[ -z "$file" ]] && reference "${FUNCNAME[0]}" && return
+    if [[ ! -r "$file" ]]; then
+        echo "pickfrom: cannot read $file" >&2
+        return 1
+    fi
+    length=$(wc -l < "$file")
+    if ((length <= 0)); then
+        echo "pickfrom: $file is empty" >&2
+        return 1
+    fi
+    n=$((RANDOM * length / 32768 + 1))
+    head -n "$n" "$file" | tail -1
 }
 
 passgen () {
@@ -59,11 +66,15 @@ passgen () {
     example '$ passgen 6'
     group 'Misc'
 
-    local i pass length=${1:-4}
-    pass=$(echo $(for i in $(eval echo "{1..$length}"); do pickfrom /usr/share/dict/words; done))
+    local _ pass="" word length=${1:-4}
+    for ((_ = 0; _ < length; _++)); do
+        word=$(pickfrom /usr/share/dict/words) || return
+        pass+="${word} "
+    done
+    pass="${pass% }"
 
     echo "With spaces (easier to memorize): $pass"
-    echo "Without (use this as the password): $(echo $pass | tr -d ' ')"
+    echo "Without (use this as the password): $(echo "$pass" | tr -d ' ')"
 }
 
 pmdown () {
@@ -73,7 +84,7 @@ pmdown () {
 
     if command -v markdown &>/dev/null
     then
-      markdown $1 | browser
+      markdown "$1" | browser
     else
       echo "You don't have a markdown command installed!"
     fi
@@ -94,14 +105,15 @@ lsgrep () {
     about 'Search through directory contents with grep'
     group 'Misc'
 
-    ls | grep "$*"
+    find . -maxdepth 1 -mindepth 1 -print | sed 's#^\./##' | grep -- "$*"
 }
 
 quiet () {
     about 'What *does* this do?'
     group 'Misc'
 
-    "$*" &> /dev/null &
+    (($#)) || return 1
+    "$@" &> /dev/null &
 }
 
 usage () {
@@ -139,13 +151,13 @@ mkiso () {
     group 'Misc'
 
     if type "mkisofs" > /dev/null; then
-        [[ -z ${1+x} ]] && local isoname=${PWD##*/} || local isoname=$1
-        [[ -z ${2+x} ]] && local destpath=../ || local destpath=$2
-        [[ -z ${3+x} ]] && local srcpath=${PWD} || local srcpath=$3
+        local isoname="${1:-${PWD##*/}}"
+        local destpath="${2:-../}"
+        local srcpath="${3:-${PWD}}"
 
         if [[ ! -f "${destpath}${isoname}.iso" ]]; then
             echo "writing ${isoname}.iso to ${destpath} from ${srcpath}"
-            mkisofs -V ${isoname} -iso-level 3 -r -o "${destpath}${isoname}.iso" "${srcpath}"
+            mkisofs -V "${isoname}" -iso-level 3 -r -o "${destpath}${isoname}.iso" "${srcpath}"
         else
             echo "${destpath}${isoname}.iso already exists"
         fi

@@ -4,4 +4,7 @@
 cite about-plugin
 about-plugin 'Sources tmuxinator script if available'
 
-[[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]] && . "$HOME/.tmuxinator/scripts/tmuxinator"
+if [[ -s "$HOME/.tmuxinator/scripts/tmuxinator" ]]; then
+  # shellcheck source=/dev/null
+  . "$HOME/.tmuxinator/scripts/tmuxinator"
+fi

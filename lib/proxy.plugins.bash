@@ -1,7 +1,12 @@
+# shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Proxy Tools'
 
 PROXY_DIVIDER=$(printf '%.0s-' {1..30}; echo)
+if ((${#BASH_IT_SED_I_PARAMETERS[@]} == 0)) && ((${#GAUDI_BASH_SED_I_PARAMETERS[@]} > 0)); then
+	BASH_IT_SED_I_PARAMETERS=("${GAUDI_BASH_SED_I_PARAMETERS[@]}")
+fi
 
 disable-proxy () {
 	about 'Disables proxy settings for Bash, npm and SSH'
@@ -26,12 +31,12 @@ enable-proxy () {
 	about 'Enables proxy settings for Bash, npm and SSH'
 	group 'Proxy'
 
-	export http_proxy=$BASH_IT_HTTP_PROXY
-	export https_proxy=$BASH_IT_HTTPS_PROXY
+	export http_proxy=${BASH_IT_HTTP_PROXY:-}
+	export https_proxy=${BASH_IT_HTTPS_PROXY:-}
 	export HTTP_PROXY=$http_proxy
 	export HTTPS_PROXY=$https_proxy
 	export ALL_PROXY=$http_proxy
-	export no_proxy=$BASH_IT_NO_PROXY
+	export no_proxy=${BASH_IT_NO_PROXY:-}
 	export NO_PROXY=$no_proxy
 
 	echo "Enabled proxy environment variables"
@@ -45,18 +50,18 @@ enable-proxy-alt () {
 	about 'Enables alternate proxy settings for Bash, npm and SSH'
 	group 'Proxy'
 
-	export http_proxy=$BASH_IT_HTTP_PROXY_ALT
-	export https_proxy=$BASH_IT_HTTPS_PROXY_ALT
+	export http_proxy=${BASH_IT_HTTP_PROXY_ALT:-}
+	export https_proxy=${BASH_IT_HTTPS_PROXY_ALT:-}
 	export HTTP_PROXY=$http_proxy
 	export HTTPS_PROXY=$https_proxy
 	export ALL_PROXY=$http_proxy
-	export no_proxy=$BASH_IT_NO_PROXY
+	export no_proxy=${BASH_IT_NO_PROXY:-}
 	export NO_PROXY=$no_proxy
 	echo "Enabled alternate proxy environment variables"
 
-	npm-enable-proxy $http_proxy $https_proxy
+	npm-enable-proxy "$http_proxy" "$https_proxy"
 	ssh-enable-proxy
-	svn-enable-proxy $http_proxy
+	svn-enable-proxy "$http_proxy"
 }
 
 show-proxy () {
@@ -66,7 +71,7 @@ show-proxy () {
   printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "Environment Variables"
 	env | grep -i "proxy" | grep -v "BASH_IT"
 
-	show-proxy
+	gaudi-show-proxy
 	npm-show-proxy
 	git-global-show-proxy
 	svn-show-proxy
@@ -94,12 +99,12 @@ EOF
 	show-proxy
 }
 
-show-proxy () {
+gaudi-show-proxy () {
 	about 'Shows the gaudi-bash proxy settings'
 	group 'Proxy'
 
   printf "\n${GREEN}%s${NC}\n%s\n$PROXY_DIVIDER\n" "gaudi-bash Environment Variables" "(These variables will be used to set the proxy when you call 'enable-proxy')"
-	env | grep -e "BASH_IT.*PROXY"
+		env | grep -E "(BASH_IT|GAUDI_BASH).*PROXY"
 }
 
 npm-show-proxy () {
@@ -130,14 +135,14 @@ npm-enable-proxy () {
 	about 'Enables npm proxy settings'
 	group 'Proxy'
 
-	local my_http_proxy=${1:-$BASH_IT_HTTP_PROXY}
-	local my_https_proxy=${2:-$BASH_IT_HTTPS_PROXY}
-	local my_no_proxy=${3:-$BASH_IT_NO_PROXY}
+	local my_http_proxy=${1:-${BASH_IT_HTTP_PROXY:-}}
+	local my_https_proxy=${2:-${BASH_IT_HTTPS_PROXY:-}}
+	local my_no_proxy=${3:-${BASH_IT_NO_PROXY:-}}
 
 	if command -v npm &> /dev/null ; then
-		npm config set proxy $my_http_proxy
-		npm config set https-proxy $my_https_proxy
-		npm config set noproxy $my_no_proxy
+		npm config set proxy "$my_http_proxy"
+		npm config set https-proxy "$my_https_proxy"
+		npm config set noproxy "$my_no_proxy"
 		echo "Enabled npm proxy settings"
 	fi
 }
@@ -171,8 +176,8 @@ git-global-enable-proxy () {
 	if command -v git &> /dev/null ; then
 		git-global-disable-proxy
 
-		git config --global --add http.proxy $BASH_IT_HTTP_PROXY
-		git config --global --add https.proxy $BASH_IT_HTTPS_PROXY
+		git config --global --add http.proxy "${BASH_IT_HTTP_PROXY:-}"
+		git config --global --add https.proxy "${BASH_IT_HTTPS_PROXY:-}"
 		echo "Enabled global Git proxy settings"
 	fi
 }
@@ -206,8 +211,8 @@ git-enable-proxy () {
 	if command -v git &> /dev/null ; then
 		git-disable-proxy
 
-		git config --add http.proxy $BASH_IT_HTTP_PROXY
-		git config --add https.proxy $BASH_IT_HTTPS_PROXY
+		git config --add http.proxy "${BASH_IT_HTTP_PROXY:-}"
+		git config --add https.proxy "${BASH_IT_HTTPS_PROXY:-}"
 		echo "Enabled Git project proxy settings"
 	fi
 }
@@ -273,9 +278,9 @@ svn-enable-proxy () {
 	group 'Proxy'
 
 	if command -v svn &> /dev/null && command -v python2 &> /dev/null ; then
-		local my_http_proxy=${1:-$BASH_IT_HTTP_PROXY}
+		local my_http_proxy=${1:-${BASH_IT_HTTP_PROXY:-}}
 
-		python2 - "$my_http_proxy" "$BASH_IT_NO_PROXY" <<END
+		python2 - "$my_http_proxy" "${BASH_IT_NO_PROXY:-}" <<END
 import ConfigParser, os, sys, urlparse
 pieces = urlparse.urlparse(sys.argv[1])
 host = pieces.hostname

@@ -23,9 +23,10 @@ _gaudi_nvm_load() {
 	fi
 
 	if [[ -n "$nvm_sh" ]]; then
-		source "$nvm_sh"
-		# Load nvm bash completion if available
-		[[ -s "${nvm_sh%/*}/bash_completion" ]] && source "${nvm_sh%/*}/bash_completion"
+			source "$nvm_sh"
+			# Load nvm bash completion if available
+			# shellcheck source=/dev/null
+			[[ -s "${nvm_sh%/*}/bash_completion" ]] && source "${nvm_sh%/*}/bash_completion"
 	else
 		echo "gaudi-bash: nvm not found. Install from https://github.com/nvm-sh/nvm"
 		return 1

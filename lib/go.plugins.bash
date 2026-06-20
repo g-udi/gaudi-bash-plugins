@@ -3,14 +3,16 @@
 cite about-plugin
 about-plugin 'Go environment variables & path configuration'
 
-command -v go &>/dev/null || return
+command -v go &>/dev/null || return 0
 
 _go_pathmunge_wrap () {
-  IFS=':' local -a 'a=($1)'
-  local i=${#a[@]}
+  local IFS=':'
+  local -a paths
+  read -r -a paths <<< "$1"
+  local i=${#paths[@]}
   while [[ $i -gt 0 ]] ; do
     i=$(( i - 1 ))
-    pathmunge "${a[i]}/bin"
+    pathmunge "${paths[i]}/bin"
   done
 }
 

@@ -1,4 +1,3 @@
-
 # shellcheck shell=bash
 # shellcheck disable=SC2154,SC1090,SC1091,SC2145
 
@@ -58,7 +57,7 @@ alias_completion () {
 		alias_defn="${line#*=\'}"                 # alias definition
 		alias_defn="${alias_defn%\'}"
 		alias_cmd="${alias_defn%%[[:space:]]*}" # first word of alias
-		if [[ ${alias_defn} == ${alias_cmd} ]]; then
+		if [[ ${alias_defn} == "${alias_cmd}" ]]; then
 			alias_args=''
 		else
 			alias_args="${alias_defn#*[[:space:]]}" # everything after first word
@@ -122,6 +121,6 @@ alias_completion () {
 	done < <(alias -p)
 	# shellcheck source=/dev/null
 	source "$tmp_file" && command rm -f "$tmp_file"
-}; 
+	}
 
 alias_completion

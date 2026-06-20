@@ -19,6 +19,5 @@ gw () {
   done
 
   # Call gradle
-  "${result}" $*
+  "${result}" "$@"
 }
-

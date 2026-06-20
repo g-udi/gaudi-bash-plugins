@@ -3,18 +3,18 @@
 cite about-plugin
 about-plugin 'Enables powerline daemon'
 
-_command_exists powerline-daemon || return
+_command_exists powerline-daemon || return 0
 powerline-daemon -q
 
 #the following should not be executed if bashit powerline themes in use
-case "$BASH_IT_THEME" in
+case "${GAUDI_BASH_THEME:-${BASH_IT_THEME:-}}" in
 	*powerline*)
-		return
+			return 0
 		;;
 esac
-POWERLINE_BASH_CONTINUATION=1
-POWERLINE_BASH_SELECT=1
-bashPowerlineInit="$(python -c \
+export POWERLINE_BASH_CONTINUATION=1
+export POWERLINE_BASH_SELECT=1
+bashPowerlineInit="$("${PYTHON:-python}" -c \
 	"import os; \
 	import powerline;\
 	print(os.path.join(os.path.dirname(\
@@ -22,5 +22,6 @@ bashPowerlineInit="$(python -c \
 	'bindings', \
 	'bash', \
 	'powerline.sh'))")"
-[ -e $bashPowerlineInit ] || return
-source $bashPowerlineInit
+[[ -e "$bashPowerlineInit" ]] || return 0
+# shellcheck source=/dev/null
+source "$bashPowerlineInit"

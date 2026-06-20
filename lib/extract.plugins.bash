@@ -36,11 +36,23 @@ End-Of-Usage
             continue
         fi
 
-        local -r filename=$(basename -- $1)
-        local -r filedirname=$(dirname -- $1)
+        local -r filename=$(basename -- "$1")
+        local -r filedirname=$(dirname -- "$1")
         local targetdirname
 
-        targetdirname=$(sed 's/\(\.tar\.bz2$\|\.tbz$\|\.tbz2$\|\.tar\.gz$\|\.tgz$\|\.tar$\|\.tar\.xz$\|\.txz$\|\.tar\.Z$\|\.7z$\)//g' <<< $filename)
+        targetdirname="$filename"
+        case "$targetdirname" in
+            *.tar.bz2) targetdirname=${targetdirname%.tar.bz2} ;;
+            *.tbz) targetdirname=${targetdirname%.tbz} ;;
+            *.tbz2) targetdirname=${targetdirname%.tbz2} ;;
+            *.tar.gz) targetdirname=${targetdirname%.tar.gz} ;;
+            *.tgz) targetdirname=${targetdirname%.tgz} ;;
+            *.tar.xz) targetdirname=${targetdirname%.tar.xz} ;;
+            *.txz) targetdirname=${targetdirname%.txz} ;;
+            *.tar.Z) targetdirname=${targetdirname%.tar.Z} ;;
+            *.tar) targetdirname=${targetdirname%.tar} ;;
+            *.7z) targetdirname=${targetdirname%.7z} ;;
+        esac
         if [[ "$filename" = "$targetdirname" ]]; then
             # archive type either not supported or it doesn't need dir creation
             targetdirname=""
@@ -55,13 +67,13 @@ End-Of-Usage
                 *.tar.xz|*.txz) tar "x${verbose}Jf" "$1" -C "$filedirname/$targetdirname" ;;
                 *.tar.Z) tar "x${verbose}Zf" "$1" -C "$filedirname/$targetdirname" ;;
                 *.bz2) bunzip2 "$1" ;;
-                *.deb) dpkg-deb -x${verbose} "$1" "${1:0:-4}" ;;
+                *.deb) dpkg-deb -x"${verbose}" "$1" "${1:0:-4}" ;;
                 *.pax.gz) gunzip "$1"; set -- "$@" "${1:0:-3}" ;;
                 *.gz) gunzip "$1" ;;
                 *.pax) pax -r -f "$1" ;;
                 *.pkg) pkgutil --expand "$1" "${1:0:-4}" ;;
                 *.rar) unrar x "$1" ;;
-                *.rpm) rpm2cpio "$1" | cpio -idm${verbose} ;;
+                *.rpm) rpm2cpio "$1" | cpio -idm"${verbose}" ;;
                 *.tar) tar "x${verbose}f" "$1" -C "$filedirname/$targetdirname" ;;
                 *.xz) xz --decompress "$1" ;;
                 *.zip|*.war|*.jar) unzip "$1" ;;

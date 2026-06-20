@@ -55,13 +55,13 @@ docker-image-dependencies () {
 
   if hash dot 2>/dev/null; then
     OUT=$(mktemp -t docker-viz-XXXX.png)
-    docker images -viz | dot -Tpng > $OUT
+    docker images -viz | dot -Tpng > "$OUT"
     case $OSTYPE in
       linux*)
-        xdg-open $OUT
+        xdg-open "$OUT"
         ;;
       darwin*)
-        open $OUT
+        open "$OUT"
         ;;
     esac
   else
@@ -82,7 +82,7 @@ docker-archive-content () {
   example 'docker-archive-content images.tar.gz'
 
   if [[ -n "$1" ]]; then
-    tar -xzOf $1 manifest.json | jq '[.[] | .RepoTags] | add'
+    tar -xzOf "$1" manifest.json | jq '[.[] | .RepoTags] | add'
   fi
 }
 

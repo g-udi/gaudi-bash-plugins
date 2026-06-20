@@ -13,5 +13,5 @@ remove_gem () {
   about 'Removes installed gem'
   group 'Ruby'
 
-  gem list | grep $1 | awk '{ print $1; }' | xargs sudo gem uninstall
+  gem list | grep "$1" | awk '{ print $1; }' | xargs sudo gem uninstall
 }

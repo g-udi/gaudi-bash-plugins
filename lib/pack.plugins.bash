@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck disable=SC2034,SC2164,SC2207
 
 cite about-plugin
 about-plugin 'CNB pack cli aliases'
