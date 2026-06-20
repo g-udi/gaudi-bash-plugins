@@ -35,7 +35,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**basher**](/lib/basher.plugins.bash): Initializes basher, the shell package manager
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
 - [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
-- [**brew**](/lib/brew.plugins.bash): Make sure that brew is accessible and exported properly in your shell
+- [**brew**](/lib/brew.plugins.bash): Load Homebrew shell environment and user-local binaries
 - [**bun**](/lib/bun.plugins.bash): Configure Bun install directory and add Bun to PATH
 - [**cargo**](/lib/cargo.plugins.bash): Configure Cargo install directory and add Cargo binaries to PATH
 - [**chruby**](/lib/chruby.plugins.bash): Load chruby from `/usr/local/share/chruby`
@@ -70,7 +70,6 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**json**](/lib/json.plugins.bash): Syntax-highlight JSON strings or files
 - [**jump**](/lib/jump.plugins.bash): Initialize [jump](https://github.com/gsamokovarov/jump). Add `export JUMP_OPTS=("--bind=z")` to change keybinding
 - [**latex**](/lib/latex.plugins.bash): Add mactex to the path if its present
-- [**local-bin**](/lib/local-bin.plugins.bash): Add user-local binaries to PATH
 - [**man**](/lib/man.plugins.bash): Colorize man pages for better readability
 - [**nginx**](/lib/nginx.plugins.bash): Manage your nginx service
 - [**node**](/lib/node.plugins.bash): Node.js helper functions
