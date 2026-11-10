@@ -2,7 +2,7 @@
 
 This repo contains a submodule for [gaudi-bash](https://github.com/g-udi/gaudi-bash) with all the plugins it loads.
 
-The plugins can make use of the [helper functions](https://github.com/g-udi/gaudi-bash/blob/master/lib/helpers/utils.bash) of gaudi-bash:
+The plugins can make use of the [helper functions](https://github.com/g-udi/gaudi-bash/blob/main/lib/helpers/utils.bash) of gaudi-bash:
 - `_is_function`: check if the passed parameter is a function
 - `_command_exists`: check if the command passed as the argument exists
 - `_completion_exists`: check if the completion function passed as the argument exists
