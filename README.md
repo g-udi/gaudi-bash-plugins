@@ -16,7 +16,7 @@ The plugins can make use of the [helper functions](https://github.com/g-udi/gaud
 
 - [ ] Make sure to have `# shellcheck shell=bash` at the top of every file and have an empty newline after
 - [ ] Make sure to have the `cite about-plugin`
-- [ ] Make sure to fill in a description of the alias in the `about-plugin`
+- [ ] Make sure to fill in a description of the plugin in the `about-plugin`
 
  ```bash
 # shellcheck shell=bash
