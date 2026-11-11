@@ -17,11 +17,11 @@ fi
 
 if [[ -n "$_gaudi_brew_binary" ]]; then
 	eval "$("$_gaudi_brew_binary" shellenv)"
-	export GAUDI_BASH_HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$("$_gaudi_brew_binary" --prefix 2> /dev/null)}"
+	export GAUDI_HOST_HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$("$_gaudi_brew_binary" --prefix 2> /dev/null)}"
 else
 	for _gaudi_brew_prefix in /opt/homebrew /usr/local /home/linuxbrew/.linuxbrew; do
 		[[ -d "$_gaudi_brew_prefix" ]] || continue
-		export GAUDI_BASH_HOMEBREW_PREFIX="$_gaudi_brew_prefix"
+		export GAUDI_HOST_HOMEBREW_PREFIX="$_gaudi_brew_prefix"
 		pathmunge "$_gaudi_brew_prefix/bin"
 		pathmunge "$_gaudi_brew_prefix/sbin"
 		break

@@ -106,7 +106,11 @@ _osx-jvms-scan () {
     return 1
   fi
 
-  mapfile -t JVMS < <(find "$JVMS_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
+  # No mapfile: this file also loads in bash 3.2
+  local _jvm
+  while IFS= read -r _jvm; do
+    JVMS+=("$_jvm")
+  done < <(find "$JVMS_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
 }
 
 list-jvms () {

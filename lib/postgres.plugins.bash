@@ -12,7 +12,7 @@ if _command_exists pg_config; then
   export POSTGRES_BIN
 
   # Homebrew keeps the data directory under its prefix (var/postgres or var/postgresql@<version>)
-  _gaudi_pg_brew="${GAUDI_BASH_HOMEBREW_PREFIX:-${HOMEBREW_PREFIX:-}}"
+  _gaudi_pg_brew="${GAUDI_HOST_HOMEBREW_PREFIX:-${HOMEBREW_PREFIX:-}}"
   if [[ -z "$_gaudi_pg_brew" ]]; then
     _gaudi_pg_brew=/usr/local
     [[ -d /opt/homebrew/var ]] && _gaudi_pg_brew=/opt/homebrew

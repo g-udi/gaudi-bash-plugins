@@ -19,7 +19,7 @@ about-plugin 'Video to gif, gif to WebM helper functions'
 _gif_gnu_getopt () {
   local prefix
   if [[ "$OSTYPE" == "darwin"* ]] ; then
-    for prefix in "${GAUDI_BASH_HOMEBREW_PREFIX:-}" "${HOMEBREW_PREFIX:-}" /opt/homebrew /usr/local; do
+    for prefix in "${GAUDI_HOST_HOMEBREW_PREFIX:-}" "${HOMEBREW_PREFIX:-}" /opt/homebrew /usr/local; do
       if [[ -n "$prefix" && -x "${prefix}/opt/gnu-getopt/bin/getopt" ]]; then
         echo "${prefix}/opt/gnu-getopt/bin/getopt"
         return 0

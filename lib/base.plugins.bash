@@ -1,21 +1,58 @@
 # shellcheck shell=bash
 
 cite about-plugin
-about-plugin 'Miscellaneous tools'
+about-plugin 'Miscellaneous base tools'
 
-ips () {
-    about 'Display all ip addresses for this host'
-    group 'base'
+# Get all IPs
+ips() {
+	about 'Display all ip addresses for this host'
+	group 'base'
 
-    if command -v ifconfig &>/dev/null
-    then
-        ifconfig | awk '/inet /{ gsub(/addr:/, ""); print $2 }'
-    elif command -v ip &>/dev/null
-    then
-        ip addr | grep -oP 'inet \K[\d.]+'
-    else
-        echo "You don't have ifconfig or ip command installed!"
-    fi
+	if _command_exists ifconfig; then
+		ifconfig | awk '/inet /{ gsub(/addr:/, ""); print $2 }'
+	elif _command_exists ip; then
+		ip addr | awk '/inet /{ print $2 }'
+	fi
+}
+
+# Get external IP
+myip() {
+	about 'Displays your ip address, as seen by the Internet'
+	group 'base'
+
+	curl -s https://api.ipify.org && echo
+}
+
+# Make a directory and cd into it
+mkcd() {
+	about 'Make a directory and cd into it'
+	example '$ mkcd foo'
+	example '$ mkcd /tmp/img/photos/large'
+	group 'base'
+
+	mkdir -p "$1" && cd "$1" || return
+}
+
+# Generate a random password
+passgen() {
+	about 'Generates a random password (16 characters, or the length given)'
+	example '$ passgen 24'
+	group 'base'
+
+	local length=${1:-16}
+	LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&*' </dev/urandom | head -c "$length"
+	echo
+}
+
+# Pick a random line from a file
+pickfrom() {
+	about 'Picks random line from file'
+	example '$ pickfrom /usr/share/dict/words'
+	group 'base'
+
+	local file="${1:-}"
+	[[ -z "$file" ]] && echo "usage: pickfrom <file>" && return 1
+	shuf -n 1 "$file"
 }
 
 down4me () {
@@ -24,57 +61,6 @@ down4me () {
     group 'base'
 
     curl -Ls "http://downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g'
-}
-
-myip () {
-    about 'Displays your ip address, as seen by the Internet'
-    group 'base'
-
-    local list res url
-    list=("http://myip.dnsomatic.com/" "http://checkip.dyndns.com/" "http://checkip.dyndns.org/")
-    for url in "${list[@]}"; do
-        if res=$(curl -fs "${url}"); then
-            break;
-        fi
-    done
-    res=$(echo "$res" | grep -Eo '[0-9\.]+')
-    echo -e "Your public IP is: ${GREEN} $res ${NC}"
-}
-
-pickfrom () {
-    about 'Picks random line from file'
-    example '$ pickfrom /usr/share/dict/words'
-    group 'base'
-
-    local file=$1 length n
-    [[ -z "$file" ]] && reference "${FUNCNAME[0]}" && return
-    if [[ ! -r "$file" ]]; then
-        echo "pickfrom: cannot read $file" >&2
-        return 1
-    fi
-    length=$(wc -l < "$file")
-    if ((length <= 0)); then
-        echo "pickfrom: $file is empty" >&2
-        return 1
-    fi
-    n=$((RANDOM * length / 32768 + 1))
-    head -n "$n" "$file" | tail -1
-}
-
-passgen () {
-    about 'Generates random password from dictionary words'
-    example '$ passgen 6'
-    group 'base'
-
-    local _ pass="" word length=${1:-4}
-    for ((_ = 0; _ < length; _++)); do
-        word=$(pickfrom /usr/share/dict/words) || return
-        pass+="${word} "
-    done
-    pass="${pass% }"
-
-    echo "With spaces (easier to memorize): $pass"
-    echo "Without (use this as the password): $(echo "$pass" | tr -d ' ')"
 }
 
 pmdown () {
@@ -96,17 +82,6 @@ pmdown () {
     else
       echo "You don't have a markdown command installed!"
     fi
-}
-
-mkcd () {
-    about 'Make one or more directories and cd into the last one'
-    example '$ mkcd foo'
-    example '$ mkcd /tmp/img/photos/large'
-    example '$ mkcd foo foo1 foo2 fooN'
-    example '$ mkcd /tmp/img/photos/large /tmp/img/photos/self /tmp/img/photos/Beijing'
-    group 'base'
-
-    mkdir -p -- "$@" && eval cd -- "\"\$$#\""
 }
 
 lsgrep () {
