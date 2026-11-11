@@ -5,7 +5,7 @@ about-plugin 'Miscellaneous tools'
 
 ips () {
     about 'Display all ip addresses for this host'
-    group 'Misc'
+    group 'base'
 
     if command -v ifconfig &>/dev/null
     then
@@ -21,14 +21,14 @@ ips () {
 down4me () {
     about 'Checks whether a website is down for you, or everybody'
     example '$ down4me http://www.google.com'
-    group 'Misc'
+    group 'base'
 
     curl -Ls "http://downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g'
 }
 
 myip () {
     about 'Displays your ip address, as seen by the Internet'
-    group 'Misc'
+    group 'base'
 
     local list res url
     list=("http://myip.dnsomatic.com/" "http://checkip.dyndns.com/" "http://checkip.dyndns.org/")
@@ -44,7 +44,7 @@ myip () {
 pickfrom () {
     about 'Picks random line from file'
     example '$ pickfrom /usr/share/dict/words'
-    group 'Misc'
+    group 'base'
 
     local file=$1 length n
     [[ -z "$file" ]] && reference "${FUNCNAME[0]}" && return
@@ -64,7 +64,7 @@ pickfrom () {
 passgen () {
     about 'Generates random password from dictionary words'
     example '$ passgen 6'
-    group 'Misc'
+    group 'base'
 
     local _ pass="" word length=${1:-4}
     for ((_ = 0; _ < length; _++)); do
@@ -80,11 +80,19 @@ passgen () {
 pmdown () {
     about 'Preview markdown file in a browser'
     example '$ pmdown README.md'
-    group 'Misc'
+    group 'base'
 
     if command -v markdown &>/dev/null
     then
-      markdown "$1" | browser
+      local html="${TMPDIR:-/tmp}/pmdown-${1##*/}.html"
+      markdown "$1" > "$html" || return 1
+      if command -v open &>/dev/null; then
+        open "$html"
+      elif command -v xdg-open &>/dev/null; then
+        xdg-open "$html"
+      else
+        echo "Preview written to $html"
+      fi
     else
       echo "You don't have a markdown command installed!"
     fi
@@ -96,21 +104,22 @@ mkcd () {
     example '$ mkcd /tmp/img/photos/large'
     example '$ mkcd foo foo1 foo2 fooN'
     example '$ mkcd /tmp/img/photos/large /tmp/img/photos/self /tmp/img/photos/Beijing'
-    group 'Misc'
+    group 'base'
 
     mkdir -p -- "$@" && eval cd -- "\"\$$#\""
 }
 
 lsgrep () {
     about 'Search through directory contents with grep'
-    group 'Misc'
+    group 'base'
 
     find . -maxdepth 1 -mindepth 1 -print | sed 's#^\./##' | grep -- "$*"
 }
 
 quiet () {
-    about 'What *does* this do?'
-    group 'Misc'
+    about 'Runs a command in the background with all of its output discarded'
+    example '$ quiet open-some-gui-app'
+    group 'base'
 
     (($#)) || return 1
     "$@" &> /dev/null &
@@ -119,7 +128,7 @@ quiet () {
 usage () {
     about 'Disk usage per directory, in Mac OS X and Linux'
     param '1: directory name'
-    group 'Misc'
+    group 'base'
 
     if [[ $(uname) = "Darwin" ]]; then
         if [[ -n "$1" ]]; then
@@ -137,18 +146,10 @@ usage () {
     fi
 }
 
-command_exists () {
-    about 'Checks for existence of a command'
-    example '$ command_exists ls && echo exists'
-    group 'Misc'
-
-    type "$1" &> /dev/null ;
-}
-
 mkiso () {
     about 'Creates iso from current dir in the parent dir (unless defined)'
     example 'mkiso ISO-Name dest/path src/path'
-    group 'Misc'
+    group 'base'
 
     if type "mkisofs" > /dev/null; then
         local isoname="${1:-${PWD##*/}}"
@@ -168,7 +169,7 @@ mkiso () {
 
 buf () {
     about 'Backup file with timestamp'
-    group 'Misc'
+    group 'base'
 
     local filename filetime
 
@@ -180,7 +181,7 @@ buf () {
 del () {
     about 'Move files to hidden folder in tmp, that gets cleared on each reboot'
     example 'del ./file.txt'
-    group 'Misc'
+    group 'base'
 
     mkdir -p /tmp/.trash && mv "$@" /tmp/.trash;
 }

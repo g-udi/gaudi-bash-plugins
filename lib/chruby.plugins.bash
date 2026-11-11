@@ -2,12 +2,17 @@
 # shellcheck disable=SC1091
 
 cite about-plugin
-about-plugin 'Load chruby (from /usr/local/share/chruby)'
+about-plugin 'Load chruby (from the Homebrew prefix, /usr/local or /usr)'
 
-if [[ -f /usr/local/share/chruby/chruby.sh ]]; then
-  source /usr/local/share/chruby/chruby.sh
-fi
-
-if [[ -f /usr/local/share/chruby/auto.sh ]]; then
-  source /usr/local/share/chruby/auto.sh
-fi
+for _gaudi_chruby_prefix in "${GAUDI_BASH_HOMEBREW_PREFIX:-}" "${HOMEBREW_PREFIX:-}" /opt/homebrew /usr/local /usr; do
+  if [[ -n "$_gaudi_chruby_prefix" && -f "${_gaudi_chruby_prefix}/share/chruby/chruby.sh" ]]; then
+    # shellcheck source=/dev/null
+    source "${_gaudi_chruby_prefix}/share/chruby/chruby.sh"
+    if [[ -f "${_gaudi_chruby_prefix}/share/chruby/auto.sh" ]]; then
+      # shellcheck source=/dev/null
+      source "${_gaudi_chruby_prefix}/share/chruby/auto.sh"
+    fi
+    break
+  fi
+done
+unset _gaudi_chruby_prefix

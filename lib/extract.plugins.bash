@@ -4,6 +4,10 @@ cite about-plugin
 about-plugin 'Extractor helper functions for various archive types'
 
 extract () {
+    about 'Extracts archives of the most common formats'
+    param '*: archives to extract'
+    group 'extract'
+
     local opt
     local OPTIND=1
     while getopts "hv" opt; do
