@@ -14,7 +14,7 @@ case "${GAUDI_BASH_THEME:-${BASH_IT_THEME:-}}" in
 esac
 export POWERLINE_BASH_CONTINUATION=1
 export POWERLINE_BASH_SELECT=1
-bashPowerlineInit="$("${PYTHON:-python}" -c \
+bashPowerlineInit="$("${PYTHON:-python3}" -c \
 	"import os; \
 	import powerline;\
 	print(os.path.join(os.path.dirname(\

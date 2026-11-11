@@ -37,7 +37,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**brew**](/lib/brew.plugins.bash): Load Homebrew shell environment and user-local binaries
 - [**bun**](/lib/bun.plugins.bash): Configure Bun install directory and add Bun to PATH
 - [**cargo**](/lib/cargo.plugins.bash): Configure Cargo install directory and add Cargo binaries to PATH
-- [**chruby**](/lib/chruby.plugins.bash): Load chruby from `/usr/local/share/chruby`
+- [**chruby**](/lib/chruby.plugins.bash): Load chruby (from the Homebrew prefix, `/usr/local` or `/usr`)
 - [**cht-sh**](/lib/cht-sh.plugins.bash): Simplify `curl cht.sh/<query>` to `cht.sh <query>`
 - [**cmd-returned-notify**](/lib/cmd-returned-notify.plugins.bash): Alert (BEL) when a command takes longer than a threshold to complete
 - [**compress**](/lib/compress.plugins.bash): Compression tools
@@ -65,7 +65,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**java**](/lib/java.plugins.bash): Java and JAR helper functions
 - [**jekyll**](/lib/jekyll.plugins.bash): Manage your jekyll site
 - [**jenv**](/lib/jenv.plugins.bash): Manage your Java environment via jenv
-- [**jgitflow**](/lib/jgitflow.plugins.bash): Maven jgitflow build helpers
+- [**jgitflow**](/lib/jgitflow.plugins.bash): Maven jgitflow build helpers (the branch pushed on finish is `JGITFLOW_MASTER_BRANCH`, `master` by default)
 - [**json**](/lib/json.plugins.bash): Syntax-highlight JSON strings or files
 - [**jump**](/lib/jump.plugins.bash): Initialize [jump](https://github.com/gsamokovarov/jump). Add `export JUMP_OPTS=("--bind=z")` to change keybinding
 - [**latex**](/lib/latex.plugins.bash): Add mactex to the path if its present
@@ -74,7 +74,6 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**node**](/lib/node.plugins.bash): Node.js helper functions
 - [**nvm**](/lib/nvm.plugins.bash): Node version manager configuration (lazy-loaded for fast startup)
 - [**osx**](/lib/osx.plugins.bash): OSX specific functions
-- [**pack**](/lib/pack.plugins.bash): CNB pack cli aliases
 - [**percol**](/lib/percol.plugins.bash): Search & Select history with percol
 - [**pipx**](/lib/pipx.plugins.bash): Install and Run Python Applications in Isolated Environments
 - [**postgres**](/lib/postgres.plugins.bash): Postgres helper functions
@@ -82,7 +81,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**proxy**](/lib/proxy.plugins.bash): Proxy Tools
 - [**pyenv**](/lib/pyenv.plugins.bash): Python version management via pyenv (lazy-loaded for fast startup)
 - [**pygmentize**](/lib/pygmentize.plugins.bash): pygmentize instead of cat to terminal if possible
-- [**python**](/lib/python.plugins.bash): alias "shttp" to SimpleHTTPServer
+- [**python**](/lib/python.plugins.bash): Python helpers: `shttp` (http.server in the current directory) and `pyedit`
 - [**rails**](/lib/rails.plugins.bash): Helper functions for Ruby on Rails
 - [**rbenv**](/lib/rbenv.plugins.bash): Ruby Version Manager via rbenv
 - [**ruby**](/lib/ruby.plugins.bash): Ruby and rubygems specific functions and settings
