@@ -7,11 +7,14 @@ _command_exists powerline-daemon || return 0
 powerline-daemon -q
 
 #the following should not be executed if bashit powerline themes in use
-case "${GAUDI_BASH_THEME:-${BASH_IT_THEME:-}}" in
+_gaudi_powerline_theme="$(_gaudi_host_setting THEME)"
+case "${_gaudi_powerline_theme:-${BASH_IT_THEME:-}}" in
 	*powerline*)
+			unset _gaudi_powerline_theme
 			return 0
 		;;
 esac
+unset _gaudi_powerline_theme
 export POWERLINE_BASH_CONTINUATION=1
 export POWERLINE_BASH_SELECT=1
 bashPowerlineInit="$("${PYTHON:-python3}" -c \

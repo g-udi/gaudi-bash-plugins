@@ -1,93 +1,48 @@
 # shellcheck shell=bash
 
 cite about-plugin
-about-plugin 'Extractor helper functions for various archive types'
+about-plugin 'Universal archive extractor'
 
-extract () {
-    about 'Extracts archives of the most common formats'
-    param '*: archives to extract'
-    group 'extract'
+extract() {
+	about 'Extracts archives of the most common formats'
+	param '*: archives to extract'
+	group 'extract'
 
-    local opt
-    local OPTIND=1
-    while getopts "hv" opt; do
-        case "$opt" in
-            h)
-                cat <<End-Of-Usage
-Usage: ${FUNCNAME[0]} [option] <archives>
-    options:
-        -h  show this message and exit
-        -v  verbosely list files processed
-End-Of-Usage
-                return
-                ;;
-            v)
-                local -r verbose='v'
-                ;;
-            ?)
-                extract -h >&2
-                return 1
-                ;;
-        esac
-    done
-    shift $((OPTIND-1))
+	if [[ -z "${1:-}" ]]; then
+		echo "usage: extract <archive>..." >&2
+		return 1
+	fi
 
-    [[ $# -eq 0 ]] && extract -h && return 1
-    while [[ $# -gt 0 ]]; do
-        if [[ ! -f "$1" ]]; then
-            echo "extract: '$1' is not a valid file" >&2
-            shift
-            continue
-        fi
-
-        local filename filedirname targetdirname
-
-        filename=$(basename -- "$1")
-        filedirname=$(dirname -- "$1")
-
-        targetdirname="$filename"
-        case "$targetdirname" in
-            *.tar.bz2) targetdirname=${targetdirname%.tar.bz2} ;;
-            *.tbz) targetdirname=${targetdirname%.tbz} ;;
-            *.tbz2) targetdirname=${targetdirname%.tbz2} ;;
-            *.tar.gz) targetdirname=${targetdirname%.tar.gz} ;;
-            *.tgz) targetdirname=${targetdirname%.tgz} ;;
-            *.tar.xz) targetdirname=${targetdirname%.tar.xz} ;;
-            *.txz) targetdirname=${targetdirname%.txz} ;;
-            *.tar.Z) targetdirname=${targetdirname%.tar.Z} ;;
-            *.tar) targetdirname=${targetdirname%.tar} ;;
-            *.7z) targetdirname=${targetdirname%.7z} ;;
-        esac
-        if [[ "$filename" = "$targetdirname" ]]; then
-            # archive type either not supported or it doesn't need dir creation
-            targetdirname=""
-        else
-            mkdir -v "$filedirname/$targetdirname"
-        fi
-
-        if [[ -f "$1" ]]; then
-            case "$1" in
-                *.tar.bz2|*.tbz|*.tbz2) tar "x${verbose}jf" "$1" -C "$filedirname/$targetdirname" ;;
-                *.tar.gz|*.tgz) tar "x${verbose}zf" "$1" -C "$filedirname/$targetdirname" ;;
-                *.tar.xz|*.txz) tar "x${verbose}Jf" "$1" -C "$filedirname/$targetdirname" ;;
-                *.tar.Z) tar "x${verbose}Zf" "$1" -C "$filedirname/$targetdirname" ;;
-                *.bz2) bunzip2 "$1" ;;
-                *.deb) dpkg-deb -x"${verbose}" "$1" "${1:0:-4}" ;;
-                *.pax.gz) gunzip "$1"; set -- "$@" "${1:0:-3}" ;;
-                *.gz) gunzip "$1" ;;
-                *.pax) pax -r -f "$1" ;;
-                *.pkg) pkgutil --expand "$1" "${1:0:-4}" ;;
-                *.rar) unrar x "$1" ;;
-                *.rpm) rpm2cpio "$1" | cpio -idm"${verbose}" ;;
-                *.tar) tar "x${verbose}f" "$1" -C "$filedirname/$targetdirname" ;;
-                *.xz) xz --decompress "$1" ;;
-                *.zip|*.war|*.jar) unzip "$1" ;;
-                *.Z) uncompress "$1" ;;
-                *.7z) 7za x "$1" ;;
-                *) echo "'$1' cannot be extracted via extract" >&2;;
-            esac
-        fi
-
-        shift
-    done
+	local archive rc=0
+	for archive in "$@"; do
+		if [[ ! -f "$archive" ]]; then
+			echo "extract: '$archive' is not a file" >&2
+			rc=1
+			continue
+		fi
+		case "$archive" in
+			*.tar.bz2 | *.tbz2 | *.tbz) tar xjf "$archive" ;;
+			*.tar.gz | *.tgz) tar xzf "$archive" ;;
+			*.tar.xz | *.txz) tar xJf "$archive" ;;
+			*.tar.zst) tar --zstd -xf "$archive" ;;
+			*.tar.Z) tar xZf "$archive" ;;
+			*.tar) tar xf "$archive" ;;
+			*.bz2) bunzip2 "$archive" ;;
+			*.gz) gunzip "$archive" ;;
+			*.xz) xz --decompress "$archive" ;;
+			*.zip | *.war | *.jar) unzip "$archive" ;;
+			*.Z) uncompress "$archive" ;;
+			*.7z) 7z x "$archive" ;;
+			*.rar) unrar x "$archive" ;;
+			*.deb) dpkg-deb -x "$archive" "${archive%.deb}" ;;
+			*.rpm) rpm2cpio "$archive" | cpio -idm ;;
+			*.pax) pax -r -f "$archive" ;;
+			*.pkg) pkgutil --expand "$archive" "${archive%.pkg}" ;;
+			*)
+				echo "extract: unsupported format '$archive'" >&2
+				false
+				;;
+		esac || rc=$?
+	done
+	return "$rc"
 }

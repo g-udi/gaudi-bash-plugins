@@ -7,8 +7,12 @@ if command -v pygmentize > /dev/null 2>&1 ; then
   # get the full paths to binaries
   CAT_BIN=$(command -v cat)
   LESS_BIN=$(command -v less)
-  BASH_IT_CCAT_STYLE="${BASH_IT_CCAT_STYLE:-${GAUDI_BASH_CCAT_STYLE:-default}}"
-  BASH_IT_CLESS_STYLE="${BASH_IT_CLESS_STYLE:-${GAUDI_BASH_CLESS_STYLE:-default}}"
+  # styles: BASH_IT_CCAT_STYLE / BASH_IT_CLESS_STYLE, else the settings CCAT_STYLE / CLESS_STYLE
+  _gaudi_pygmentize_style="$(_gaudi_host_setting CCAT_STYLE)"
+  BASH_IT_CCAT_STYLE="${BASH_IT_CCAT_STYLE:-${_gaudi_pygmentize_style:-default}}"
+  _gaudi_pygmentize_style="$(_gaudi_host_setting CLESS_STYLE)"
+  BASH_IT_CLESS_STYLE="${BASH_IT_CLESS_STYLE:-${_gaudi_pygmentize_style:-default}}"
+  unset _gaudi_pygmentize_style
 
   # pigmentize cat and less outputs - call them ccat and cless to avoid that
   # especially cat'ed output in scripts gets mangled with pygemtized meta characters

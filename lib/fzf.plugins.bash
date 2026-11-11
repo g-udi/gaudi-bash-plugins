@@ -27,9 +27,13 @@ fe() {
   param "1: Search term"
   example "fe foo"
 
-  local IFS=$'\n'
+  local file
   local -a files
-  mapfile -t files < <(fzf-tmux --query="$1" --multi --select-1 --exit-0)
+  files=()
+  # No mapfile: this file also loads in bash 3.2
+  while IFS= read -r file; do
+    files+=("$file")
+  done < <(fzf-tmux --query="$1" --multi --select-1 --exit-0)
   ((${#files[@]})) && "${EDITOR:-vim}" "${files[@]}"
 }
 

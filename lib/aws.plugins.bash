@@ -138,12 +138,15 @@ __awskeys_comp () {
             local profile_list
 
             profile_list="$(__awskeys_profiles)"
-            mapfile -t COMPREPLY < <(compgen -W "${profile_list}" -- "${cur}")
+            # No mapfile: this file also loads in bash 3.2
+            # shellcheck disable=SC2207
+            COMPREPLY=($(compgen -W "${profile_list}" -- "${cur}"))
             return 0
             ;;
     esac
 
-    mapfile -t COMPREPLY < <(compgen -W "${opts}" -- "${cur}")
+    # shellcheck disable=SC2207
+    COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
 
     return 0
 }
