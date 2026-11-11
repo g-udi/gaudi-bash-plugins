@@ -36,9 +36,10 @@ End-Of-Usage
             continue
         fi
 
-        local -r filename=$(basename -- "$1")
-        local -r filedirname=$(dirname -- "$1")
-        local targetdirname
+        local filename filedirname targetdirname
+
+        filename=$(basename -- "$1")
+        filedirname=$(dirname -- "$1")
 
         targetdirname="$filename"
         case "$targetdirname" in

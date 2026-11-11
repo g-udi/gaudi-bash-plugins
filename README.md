@@ -34,7 +34,6 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**base**](/lib/base.plugins.bash): Miscellaneous tools
 - [**basher**](/lib/basher.plugins.bash): Initializes basher, the shell package manager
 - [**blesh**](/lib/blesh.plugins.bash): load ble.sh, the Bash line editor!
-- [**boot2docker**](/lib/boot2docker.plugins.bash): Helpers to get Docker setup correctly for boot2docker
 - [**brew**](/lib/brew.plugins.bash): Load Homebrew shell environment and user-local binaries
 - [**bun**](/lib/bun.plugins.bash): Configure Bun install directory and add Bun to PATH
 - [**cargo**](/lib/cargo.plugins.bash): Configure Cargo install directory and add Cargo binaries to PATH
