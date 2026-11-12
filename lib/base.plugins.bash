@@ -8,9 +8,9 @@ ips() {
 	about 'Display all ip addresses for this host'
 	group 'base'
 
-	if _command_exists ifconfig; then
+	if _binary_exists ifconfig; then
 		ifconfig | awk '/inet /{ gsub(/addr:/, ""); print $2 }'
-	elif _command_exists ip; then
+	elif _binary_exists ip; then
 		ip addr | awk '/inet /{ print $2 }'
 	fi
 }
@@ -52,7 +52,14 @@ pickfrom() {
 
 	local file="${1:-}"
 	[[ -z "$file" ]] && echo "usage: pickfrom <file>" && return 1
-	shuf -n 1 "$file"
+	# shuf is GNU coreutils (gshuf from Homebrew on macOS): fall back to awk
+	if _binary_exists shuf; then
+		shuf -n 1 "$file"
+	elif _binary_exists gshuf; then
+		gshuf -n 1 "$file"
+	else
+		awk 'BEGIN { srand() } { line[NR] = $0 } END { if (NR) print line[int(rand() * NR) + 1] }' "$file"
+	fi
 }
 
 down4me () {

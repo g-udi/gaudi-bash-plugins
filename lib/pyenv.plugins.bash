@@ -20,12 +20,16 @@ _gaudi_pyenv_load() {
 	# Remove stubs to avoid recursion
 	unset -f pyenv python python3 pip pip3 2> /dev/null
 
-	if type -P pyenv &> /dev/null; then
-		eval "$(pyenv init - bash --no-rehash)"
+	# The init code is asked for the shell that is running (bash or zsh)
+	local shell_name="${ZSH_VERSION:+zsh}"
+	shell_name="${shell_name:-bash}"
+
+	if _binary_exists pyenv; then
+		eval "$(pyenv init - "$shell_name" --no-rehash)"
 
 		# Load pyenv virtualenv if available
 		if pyenv virtualenv-init - &> /dev/null; then
-			eval "$(pyenv virtualenv-init - bash)"
+			eval "$(pyenv virtualenv-init - "$shell_name")"
 		fi
 	else
 		echo "${GAUDI_HOST_NAME:-gaudi}: pyenv not found"

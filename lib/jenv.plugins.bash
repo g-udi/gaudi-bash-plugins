@@ -7,7 +7,7 @@ about-plugin 'Manage your Java environment via jenv'
 # - Check if in $PATH already
 # - Check if installed manually to $JENV_ROOT
 # - Check if installed manually to $HOME
-_command_exists jenv ||
+_binary_exists jenv ||
   [[ -n "${JENV_ROOT:-}" && -x "$JENV_ROOT/bin/jenv" ]] ||
   [[ -x "$HOME/.jenv/bin/jenv" ]] ||
   return 0
@@ -16,9 +16,11 @@ _command_exists jenv ||
 export JENV_ROOT="${JENV_ROOT:-$HOME/.jenv}"
 
 # Add JENV_ROOT/bin to PATH, if that's where it's installed
-! _command_exists jenv &&
+! _binary_exists jenv &&
   [[ -x "$JENV_ROOT/bin/jenv" ]] &&
   pathmunge "$JENV_ROOT/bin"
 
-# Initialize jenv
-eval "$(jenv init - bash)"
+# Initialize jenv for the shell that is running (bash or zsh)
+_gaudi_jenv_shell="${ZSH_VERSION:+zsh}"
+eval "$(jenv init - "${_gaudi_jenv_shell:-bash}")"
+unset _gaudi_jenv_shell

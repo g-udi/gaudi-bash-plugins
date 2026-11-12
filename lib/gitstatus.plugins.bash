@@ -19,8 +19,14 @@ gitstatus_on_disable () {
 
 : "${SCM_GIT_GITSTATUS_DIR:="$HOME/gitstatus"}"
 if [[ -d ${SCM_GIT_GITSTATUS_DIR} ]]; then
-  # shellcheck source=/dev/null
-  source "${SCM_GIT_GITSTATUS_DIR}/gitstatus.plugin.sh"
+  # gitstatus ships one binding per shell
+  if [[ -n "${ZSH_VERSION:-}" ]]; then
+    # shellcheck source=/dev/null
+    source "${SCM_GIT_GITSTATUS_DIR}/gitstatus.plugin.zsh"
+  else
+    # shellcheck source=/dev/null
+    source "${SCM_GIT_GITSTATUS_DIR}/gitstatus.plugin.sh"
+  fi
   # Start the actual gitstatus binary
   gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
   export SCM_GIT_USE_GITSTATUS=true

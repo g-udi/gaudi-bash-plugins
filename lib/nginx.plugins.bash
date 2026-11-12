@@ -3,7 +3,8 @@
 cite about-plugin
 about-plugin 'Manage your nginx service'
 
-export NGINX_PATH='/opt/nginx'
+# Where nginx is installed: set NGINX_PATH before this plugin loads to change it
+export NGINX_PATH="${NGINX_PATH:-/opt/nginx}"
 pathmunge "$NGINX_PATH/sbin" after
 
 # Print the pid from the nginx pid file, or fail when it is missing or not a number

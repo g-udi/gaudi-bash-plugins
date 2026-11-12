@@ -89,6 +89,7 @@ _ensure_sshagent_dead () {
   [[ -r "${SSH_AGENT_ENV}" ]] \
   || return ## no agent file - no problems
   ## ensure the file indeed points to a really running agent:
+  local agent_pid
   agent_pid=$(
     _get_sshagent_pid_from_env_file \
     "${SSH_AGENT_ENV}"

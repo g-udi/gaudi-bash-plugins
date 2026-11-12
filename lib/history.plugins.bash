@@ -3,6 +3,10 @@
 cite about-plugin
 about-plugin 'history manipulation'
 
+# Bash only: `history -a/-c/-r` and PROMPT_COMMAND do not exist in zsh, which
+# shares history between shells with its own options (SHARE_HISTORY)
+[[ -n "${BASH_VERSION:-}" ]] || return 0
+
 _bash_history_sync () {
   builtin history -a
   HISTFILESIZE=$HISTSIZE

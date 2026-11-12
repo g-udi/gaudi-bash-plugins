@@ -6,16 +6,21 @@ about-plugin 'Load fzf, a Command-line fuzzy finder written in Go'
 # Load after the system completion to make sure that the fzf completions are working
 priority "375"
 
-if [ -r ~/.fzf.bash ] ; then
+# The fzf installer writes one file per shell (~/.fzf.bash, ~/.fzf.zsh): load
+# the one of the shell that is running
+_gaudi_fzf_shell="${ZSH_VERSION:+zsh}"
+_gaudi_fzf_shell="${_gaudi_fzf_shell:-bash}"
+if [ -r "$HOME/.fzf.${_gaudi_fzf_shell}" ] ; then
   # shellcheck source=/dev/null
-  source ~/.fzf.bash
-elif [ -r "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] ; then
+  source "$HOME/.fzf.${_gaudi_fzf_shell}"
+elif [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.${_gaudi_fzf_shell}" ] ; then
   # shellcheck source=/dev/null
-  source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+  source "${XDG_CONFIG_HOME:-$HOME/.config}/fzf/fzf.${_gaudi_fzf_shell}"
 fi
+unset _gaudi_fzf_shell
 
 # No need to continue if the command is not present
-_command_exists fzf || return 0
+_binary_exists fzf || return 0
 
 if [ -z ${FZF_DEFAULT_COMMAND+x}  ] && _binary_exists fd ; then
   export FZF_DEFAULT_COMMAND='fd --type f'
@@ -23,7 +28,7 @@ fi
 
 fe() {
   about "Open the selected file in the default editor"
-  group "FZF"
+  group "fzf"
   param "1: Search term"
   example "fe foo"
 
@@ -34,12 +39,13 @@ fe() {
   while IFS= read -r file; do
     files+=("$file")
   done < <(fzf-tmux --query="$1" --multi --select-1 --exit-0)
-  ((${#files[@]})) && "${EDITOR:-vim}" "${files[@]}"
+  # eval: EDITOR may hold arguments ("code -w"), and zsh does not split words
+  ((${#files[@]})) && eval "${EDITOR:-vim} \"\${files[@]}\""
 }
 
 fcd() {
   about "cd to the selected directory"
-  group "FZF"
+  group "fzf"
   param "1: Directory to browse, or . if omitted"
   example "fcd aliases"
 

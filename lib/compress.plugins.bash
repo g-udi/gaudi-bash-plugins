@@ -6,7 +6,7 @@ about-plugin 'Compression tools'
 
 targz () {
   about 'Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression'
-  group 'Compress'
+  group 'compress'
 
 	local size tmpFile="${*%/}.tar";
 	tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
@@ -36,7 +36,7 @@ targz () {
 
 gz () {
 	about 'Compare original and gzipped file size'
-	group 'Compress'
+	group 'compress'
 
 	# ratio is a decimal, so it cannot be an integer (declare -i) variable
 	local origsize gzipsize ratio

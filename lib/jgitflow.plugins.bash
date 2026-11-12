@@ -5,11 +5,17 @@ about-plugin 'Maven jgitflow build helpers (the branch pushed on finish is JGITF
 
 _jgitflow_mvn () {
   local goal="$1"
-  local -a args=()
+  local arg
+  local -a args
+  args=()
   shift
 
+  # Split JGITFLOW_MVN_ARGUMENTS on blanks, one word per line: `read -a` and
+  # unquoted expansion behave differently in zsh
   if [[ -n "${JGITFLOW_MVN_ARGUMENTS:-}" ]]; then
-    read -r -a args <<< "${JGITFLOW_MVN_ARGUMENTS}"
+    while IFS= read -r arg; do
+      [[ -n "$arg" ]] && args+=("$arg")
+    done < <(printf '%s\n' "${JGITFLOW_MVN_ARGUMENTS}" | tr -s ' \t' '\n\n')
   fi
 
   mvn "$goal" "$@" "${args[@]}"

@@ -8,8 +8,8 @@ rm_svn () {
   group 'subversion'
 
   if [[ -z "$1" ]]; then
-      reference rm_svn
-      return
+      echo "Usage: rm_svn <directory>" >&2
+      return 1
   fi
   find "$1" -name .svn -print0 | xargs -0 rm -rf
 }
@@ -18,5 +18,7 @@ svn_add () {
     about 'Add to svn repo'
     group 'subversion'
 
-    svn status | grep '^\?' | sed -e 's/? *//' | sed -e 's/ /\ /g' | xargs svn add
+    # One unversioned path per line, handed over NUL-separated so that names
+    # with spaces stay whole
+    svn status | sed -n 's/^? *//p' | tr '\n' '\0' | xargs -0 svn add
 }

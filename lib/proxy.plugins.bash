@@ -28,7 +28,7 @@ _gaudi_proxy_setting () {
 
 disable-proxy () {
 	about 'Disables proxy settings for Bash, npm and SSH'
-	group 'Proxy'
+	group 'proxy'
 
 	unset http_proxy
 	unset https_proxy
@@ -47,7 +47,7 @@ disable-proxy () {
 
 enable-proxy () {
 	about 'Enables proxy settings for Bash, npm and SSH'
-	group 'Proxy'
+	group 'proxy'
 
 	http_proxy="$(_gaudi_proxy_setting HTTP_PROXY)"
 	https_proxy="$(_gaudi_proxy_setting HTTPS_PROXY)"
@@ -68,7 +68,7 @@ enable-proxy () {
 
 enable-proxy-alt () {
 	about 'Enables alternate proxy settings for Bash, npm and SSH'
-	group 'Proxy'
+	group 'proxy'
 
 	http_proxy="$(_gaudi_proxy_setting HTTP_PROXY_ALT)"
 	https_proxy="$(_gaudi_proxy_setting HTTPS_PROXY_ALT)"
@@ -88,7 +88,7 @@ enable-proxy-alt () {
 
 show-proxy () {
 	about 'Shows the proxy settings for Bash, Git, npm and SSH'
-	group 'Proxy'
+	group 'proxy'
 
   printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "Environment Variables"
 	env | grep -i "proxy" | grep -Ev "^(BASH_IT|GAUDI)_"
@@ -102,7 +102,7 @@ show-proxy () {
 
 proxy-help () {
 	about 'Provides an overview of the proxy configuration'
-	group 'Proxy'
+	group 'proxy'
 
 	local name="${GAUDI_HOST_NAME:-gaudi}" prefix
 	prefix="$(printf '%s' "$name" | tr 'a-z-' 'A-Z_')"
@@ -120,7 +120,8 @@ e.g. '${GAUDI_HOST_HOME%/}/components/custom/proxy.env.bash'
 * GAUDI_NO_PROXY: A comma-separated list of proxy exclusions, e.g. '127.0.0.1,localhost'
 The ${prefix}_* names of these variables (${prefix}_HTTP_PROXY, ...) and the legacy BASH_IT_* names still work.
 
-Run 'glossary proxy' to show the available proxy functions with a short description.
+Functions: enable-proxy, enable-proxy-alt, disable-proxy, show-proxy, and per tool
+npm-, git-, git-global-, svn- and ssh- followed by enable-proxy, disable-proxy or show-proxy.
 EOF
 
 	show-proxy
@@ -128,7 +129,7 @@ EOF
 
 gaudi-show-proxy () {
 	about 'Shows the proxy settings of the framework'
-	group 'Proxy'
+	group 'proxy'
 
   printf "\n${GREEN}%s${NC}\n%s\n$PROXY_DIVIDER\n" "${GAUDI_HOST_NAME:-gaudi} Environment Variables" "(These variables will be used to set the proxy when you call 'enable-proxy')"
 		env | grep -E "^(BASH_IT|GAUDI)_.*PROXY"
@@ -136,7 +137,7 @@ gaudi-show-proxy () {
 
 npm-show-proxy () {
 	about 'Shows the npm proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v npm &> /dev/null ; then
     printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "npm"
@@ -148,7 +149,7 @@ npm-show-proxy () {
 
 npm-disable-proxy () {
 	about 'Disables npm proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v npm &> /dev/null ; then
 		npm config delete proxy
@@ -160,7 +161,7 @@ npm-disable-proxy () {
 
 npm-enable-proxy () {
 	about 'Enables npm proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	local my_http_proxy my_https_proxy my_no_proxy
 	my_http_proxy=${1:-$(_gaudi_proxy_setting HTTP_PROXY)}
@@ -177,7 +178,7 @@ npm-enable-proxy () {
 
 git-global-show-proxy () {
 	about 'Shows global Git proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
     printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "Git (Global Settings)"
@@ -188,7 +189,7 @@ git-global-show-proxy () {
 
 git-global-disable-proxy () {
 	about 'Disables global Git proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
 		git config --global --unset-all http.proxy
@@ -199,7 +200,7 @@ git-global-disable-proxy () {
 
 git-global-enable-proxy () {
 	about 'Enables global Git proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
 		git-global-disable-proxy
@@ -212,7 +213,7 @@ git-global-enable-proxy () {
 
 git-show-proxy () {
 	about 'Shows current Git project proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
     printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "Git Project Proxy Settings"
@@ -223,7 +224,7 @@ git-show-proxy () {
 
 git-disable-proxy () {
 	about 'Disables current Git project proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
 		git config --unset-all http.proxy
@@ -234,7 +235,7 @@ git-disable-proxy () {
 
 git-enable-proxy () {
 	about 'Enables current Git project proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v git &> /dev/null ; then
 		git-disable-proxy
@@ -248,7 +249,7 @@ git-enable-proxy () {
 
 svn-show-proxy () {
 	about 'Shows SVN proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v svn &> /dev/null && command -v python3 &> /dev/null ; then
     printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "SVN Proxy Settings"
@@ -275,7 +276,7 @@ END
 
 svn-disable-proxy () {
 	about 'Disables SVN proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v svn &> /dev/null && command -v python3 &> /dev/null ; then
 		python3 - <<END
@@ -303,7 +304,7 @@ END
 
 svn-enable-proxy () {
 	about 'Enables SVN proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if command -v svn &> /dev/null && command -v python3 &> /dev/null ; then
 		local my_http_proxy
@@ -341,7 +342,7 @@ END
 
 ssh-show-proxy () {
 	about 'Shows SSH config proxy settings (from ~/.ssh/config)'
-	group 'Proxy'
+	group 'proxy'
 
 	if [[ -f ~/.ssh/config ]] ; then
     printf "\n${GREEN}%s${NC}\n$PROXY_DIVIDER\n" "SSH Config Enabled in ~/.ssh/config"
@@ -373,7 +374,7 @@ ssh-show-proxy () {
 
 ssh-disable-proxy () {
 	about 'Disables SSH config proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if [[ -f ~/.ssh/config ]] ; then
 		if grep -q '^[^#]*ProxyCommand' ~/.ssh/config; then
@@ -388,7 +389,7 @@ ssh-disable-proxy () {
 
 ssh-enable-proxy () {
 	about 'Enables SSH config proxy settings'
-	group 'Proxy'
+	group 'proxy'
 
 	if [[ -f ~/.ssh/config ]] ; then
 		if grep -q '^#	ProxyCommand' ~/.ssh/config; then

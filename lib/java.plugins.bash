@@ -7,7 +7,9 @@ java-link-openjdk () {
   about 'Link Homebrew OpenJDK into the macOS JavaVirtualMachines directory'
   group 'java'
 
-  local source_jdk="${1:-/opt/homebrew/opt/openjdk/libexec/openjdk.jdk}"
+  # The Homebrew prefix differs per machine (/opt/homebrew, /usr/local)
+  local brew_prefix="${GAUDI_HOST_HOMEBREW_PREFIX:-${HOMEBREW_PREFIX:-/opt/homebrew}}"
+  local source_jdk="${1:-${brew_prefix}/opt/openjdk/libexec/openjdk.jdk}"
   local target_jdk="/Library/Java/JavaVirtualMachines/openjdk.jdk"
 
   if [[ ! -d "$source_jdk" ]]; then
