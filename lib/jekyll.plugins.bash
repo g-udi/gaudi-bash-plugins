@@ -5,7 +5,7 @@ about-plugin 'Manage your jekyll site'
 
 function editpost() {
 	about 'Edit a post'
-	group 'Jekyll'
+	group 'jekyll'
 
 	local SITE site POST DATE TITLE POSTS
 	local -i COUNTER=1 POST_TO_EDIT ret
@@ -37,7 +37,9 @@ function editpost() {
 		POSTS[COUNTER]="$POST"
 		COUNTER="$((COUNTER + 1))"
 	done > >(less)
-	read -rp "Number of post to edit: " POST_TO_EDIT
+	# printf + read: `read -p` means something else in zsh
+	printf '%s' "Number of post to edit: "
+	read -r POST_TO_EDIT
 	"${JEKYLL_EDITOR:-${VISUAL:-${EDITOR:-${ALTERNATE_EDITOR:-nano}}}}" "${POSTS[POST_TO_EDIT]}"
 	ret="$?"
 	popd > /dev/null || return "$ret"
@@ -46,7 +48,7 @@ function editpost() {
 
 function newpost() {
 	about 'Create a new post'
-	group 'Jekyll'
+	group 'jekyll'
 
 	local SITE site FNAME_POST_TITLE FNAME YAML_DATE
 	local JEKYLL_FORMATTING FNAME_DATE OPTIONS OPTION POST_TYPE POST_TITLE
@@ -57,19 +59,20 @@ function newpost() {
 		return 1
 	fi
 
-	if [[ -z "${SITE}" ]]; then
-		echo "No such site."
-		return 1
-	fi
-
 	for site in "${SITES[@]}"; do
 		if [[ "${site##*/}" == "$1" ]]; then
 			SITE="$site"
-			JEKYLL_FORMATTING="${MARKUPS[loc]}"
+			# A slice, not an index: the first index is 0 in bash and 1 in zsh
+			JEKYLL_FORMATTING="${MARKUPS[*]:$loc:1}"
 			break
 		fi
 		loc=$((loc + 1))
 	done
+
+	if [[ -z "${SITE:-}" ]]; then
+		echo "No such site."
+		return 1
+	fi
 
 	# Change directory into the local jekyll root
 	pushd "${SITE}/_posts" > /dev/null || return
@@ -88,10 +91,11 @@ function newpost() {
 	fi
 
 	# Get the title for the new post
-	read -rp "Enter title of the new post: " POST_TITLE
+	printf '%s' "Enter title of the new post: "
+	read -r POST_TITLE
 
 	# Convert the spaces in the title to hyphens for use in the filename
-	FNAME_POST_TITLE="${POST_TITLE/ /-}"
+	FNAME_POST_TITLE="${POST_TITLE// /-}"
 
 	# Now, put it all together for the full filename
 	FNAME="$FNAME_DATE-$FNAME_POST_TITLE.$JEKYLL_FORMATTING"
@@ -183,7 +187,7 @@ function newpost() {
 
 function testsite() {
 	about 'Launches local jekyll server'
-	group 'Jekyll'
+	group 'jekyll'
 
 	local SITE site
 	local -i ret
@@ -214,7 +218,7 @@ function testsite() {
 
 function buildsite() {
 	about 'Builds site'
-	group 'Jekyll'
+	group 'jekyll'
 
 	local SITE site
 	local -i ret
@@ -246,7 +250,7 @@ function buildsite() {
 
 function deploysite() {
 	about 'rSyncs site to remote host'
-	group 'Jekyll'
+	group 'jekyll'
 
 	local SITE site REMOTE
 	local -i loc=0 ret
@@ -259,8 +263,9 @@ function deploysite() {
 	for site in "${SITES[@]}"; do
 		if [[ "${site##*/}" == "$1" ]]; then
 			SITE="$site"
-			# shellcheck disable=SC2153 # who knows
-			REMOTE="${REMOTES[loc]}"
+			# A slice, not an index: the first index is 0 in bash and 1 in zsh
+			# shellcheck disable=SC2153 # REMOTES comes from ~/.jekyllconfig
+			REMOTE="${REMOTES[*]:$loc:1}"
 			break
 		fi
 		loc=$((loc + 1))
@@ -272,7 +277,8 @@ function deploysite() {
 	fi
 
 	pushd "${SITE}" > /dev/null || return
-	rsync -rz "${REMOTE?}"
+	# Send the built site (rsync with a single argument only lists it)
+	rsync -rz _site/ "${REMOTE?}"
 	ret="$?"
 	popd > /dev/null || return "$ret"
 	return "$ret"

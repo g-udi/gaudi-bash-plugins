@@ -8,7 +8,7 @@ AWS_SHARED_CREDENTIALS_FILE="${AWS_SHARED_CREDENTIALS_FILE:-$HOME/.aws/credentia
 
 awskeys () {
     about 'Helper function for AWS credentials file'
-    group 'AWS'
+    group 'aws'
 
     if [[ ! -f "${AWS_SHARED_CREDENTIALS_FILE}" ]]; then
         echo "AWS credentials file not found"
@@ -77,7 +77,7 @@ __awskeys_profile_exists () {
 }
 
 __awskeys_list () {
-    local credentials_list
+    local credentials_list profile
 
     credentials_list="$(__awskeys_profiles)"
     if [[ -n "${credentials_list}" ]]; then

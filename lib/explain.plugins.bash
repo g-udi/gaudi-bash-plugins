@@ -7,10 +7,13 @@ explain () {
   about 'explain any bash command via mankier.com manpage API'
   example '$ explain                # interactive mode. Type commands to explain in REPL'
   example '$ explain '"'"'cmd -o | ...'"'"' # one quoted command to explain it.'
-  group 'Explain'
+  group 'explain'
+
+  local cmd
 
   if [[ "$#" -eq 0 ]]; then
-    while read -r -p "Command: " cmd; do
+    # printf + read: `read -p` means something else in zsh
+    while printf '%s' "Command: " && read -r cmd; do
       curl -Gs "https://www.mankier.com/api/explain/?cols=""$(tput cols)" --data-urlencode "q=$cmd"
     done
     echo "Bye!"

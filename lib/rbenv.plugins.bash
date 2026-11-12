@@ -7,5 +7,8 @@ export RBENV_ROOT="${RBENV_ROOT:-$HOME/.rbenv}"
 pathmunge "$RBENV_ROOT/bin"
 
 if command -v rbenv > /dev/null 2>&1; then
-  eval "$(rbenv init - bash)"
+  # Ask for the init code of the shell that is running (bash or zsh)
+  _gaudi_rbenv_shell="${ZSH_VERSION:+zsh}"
+  eval "$(rbenv init - "${_gaudi_rbenv_shell:-bash}")"
+  unset _gaudi_rbenv_shell
 fi

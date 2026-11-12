@@ -4,7 +4,11 @@
 cite about-plugin
 about-plugin 'Git helper functions'
 
-export GIT_EDITOR="${GIT_EDITOR:-${VISUAL:-${EDITOR:-vi}}}"
+# Give git an editor only when it has none of its own: GIT_EDITOR is not set
+# and no core.editor is configured (GIT_EDITOR would override core.editor)
+if [[ -z "${GIT_EDITOR:-}" ]] && ! git config --get core.editor > /dev/null 2>&1; then
+  export GIT_EDITOR="${VISUAL:-${EDITOR:-vi}}"
+fi
 
 git_remote () {
   about 'Adds remote $GIT_HOSTING:$1 to current repo'
@@ -31,10 +35,12 @@ git_first_push () {
 git_pub () {
   about 'Publishes current branch to remote origin'
   group 'git'
-  BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
-  echo "Publishing ${BRANCH} to remote origin"
-  git push -u origin "$BRANCH"
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD)
+
+  echo "Publishing ${branch} to remote origin"
+  git push -u origin "$branch"
 }
 
 git_revert () {
@@ -114,18 +120,22 @@ git_info () {
     about 'Overview for your git repo'
     group 'git'
 
+    local remote
+
     if [[ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]]; then
         # print informations
         echo "git repo overview"
         echo "-----------------"
         echo
 
-        # print all remotes and thier details
-        for remote in $(git remote show); do
+        # print all remotes and their details (read line by line: zsh does not
+        # split an unquoted $(...) into words)
+        while IFS= read -r remote; do
+            [[ -n "$remote" ]] || continue
             echo "$remote":
             git remote show "$remote"
             echo
-        done
+        done < <(git remote)
 
         # print status of working repo
         echo "status:"
@@ -157,8 +167,10 @@ git_stats () {
 if [[ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]]; then
     echo "Number of commits per author:"
     git --no-pager shortlog -sn --all
-	    AUTHORS=$( git shortlog -sn --all | cut -f2 | cut -f1 -d' ')
-	    local -a logopts=()
+	    local authors a
+	    authors=$( git shortlog -sn --all | cut -f2 | cut -f1 -d' ')
+	    local -a logopts
+	    logopts=()
 	    if [[ "$1" == '-w' ]]; then
 	        logopts+=(-w)
 	        shift
@@ -171,8 +183,10 @@ if [[ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]]; then
 	        logopts+=(-C --find-copies-harder)
 	        shift
 	    fi
-    for a in $AUTHORS
+    # read line by line: zsh does not split an unquoted variable into words
+    while IFS= read -r a
     do
+        [[ -n "$a" ]] || continue
         echo '-------------------'
         echo "Statistics for: $a"
         echo -n "Number of files changed: "
@@ -183,7 +197,7 @@ if [[ -n "$(git symbolic-ref HEAD 2> /dev/null)" ]]; then
 	        git log "${logopts[@]}" --all --numstat --format="%n" --author="$a" | cut -f2 | awk '{s+=$1} END {print s}'
         echo -n "Number of merges: "
 	        git log "${logopts[@]}" --all --merges --author="$a" | grep -c '^commit'
-    done
+    done <<< "$authors"
 else
     echo "you're currently not in a git repository"
 fi
@@ -194,6 +208,7 @@ gittowork () {
   group 'git'
   example '$ gittowork java'
 
+  local result
   result=$(curl -L "https://www.gitignore.io/api/$1" 2>/dev/null)
 
   if [[ $result =~ ERROR ]]; then
@@ -224,7 +239,7 @@ gitignore-reload () {
 
   # Update the index
   git update-index -q --ignore-submodules --refresh
-  err=0
+  local err=0
 
   # Disallow unstaged changes in the working tree
   if ! git diff-files --quiet --ignore-submodules --

@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 
 cite about-plugin
-about-plugin 'Node.js helper functions'
+about-plugin 'Add the bin folder of a custom npm prefix to PATH'
 
 # Ensure global modules are in PATH when a custom npm prefix is configured.
 # The default prefix is where npm itself lives (already in PATH), so the

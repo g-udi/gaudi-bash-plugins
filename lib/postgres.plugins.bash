@@ -3,7 +3,7 @@
 cite about-plugin
 about-plugin 'Postgres helper functions'
 
-if _command_exists pg_config; then
+if _binary_exists pg_config; then
 
   PGVERSION=$(pg_config --version | awk '{print $2}')
   POSTGRES_BIN=$(pg_config --bindir)
@@ -17,16 +17,14 @@ if _command_exists pg_config; then
     _gaudi_pg_brew=/usr/local
     [[ -d /opt/homebrew/var ]] && _gaudi_pg_brew=/opt/homebrew
   fi
-  COMMON_PGDATA_PATHS=("${_gaudi_pg_brew}/var/postgres" "${_gaudi_pg_brew}/var/"postgresql@* "/var/pgsql" "/Library/Server/PostgreSQL/Data")
-  unset _gaudi_pg_brew
-  for possible in "${COMMON_PGDATA_PATHS[@]}"
+  for _gaudi_pg_data in "${_gaudi_pg_brew}/var/postgres" "${_gaudi_pg_brew}/var/"postgresql@* "/var/pgsql" "/Library/Server/PostgreSQL/Data"
   do
-    :
-    if [[ -f "$possible/pg_hba.conf" ]]
+    if [[ -f "$_gaudi_pg_data/pg_hba.conf" ]]
     then
-        export PGDATA=$possible
+        export PGDATA=$_gaudi_pg_data
     fi
   done
+  unset _gaudi_pg_brew _gaudi_pg_data
 
   postgres_start () {
     about 'Starts PostgreSQL server'

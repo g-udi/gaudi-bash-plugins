@@ -31,6 +31,7 @@ alias_completion () {
 	local namespace="alias_completion"
 	local tmp_file completion_loader alias_name line completions chars
 	local alias_arg_words new_completion compl_func compl_wrapper alias_defn
+	local alias_cmd alias_args
 
 	# create array of function completion triggers, keeping multi-word triggers together
 	IFS=$'\n' read -d '' -ra completions < <(complete -p)
@@ -40,7 +41,7 @@ alias_completion () {
 	completions=("${completions[@]#complete -}")       # strip anything missed
 	completions=("${completions[@]#? * }")             # strip last option and arg, leaving only trigger(s)
 	completions=("${completions[@]#? }")       # strip anything missed
-	#TODO: this will fail on some completions...
+	# Known limit: a completion spec whose options do not fit the patterns above is left out
 
 	# create temporary file for wrapper functions and completions
 	tmp_file="$(mktemp -t "${namespace}-${RANDOM}XXXXXX")" || return 1

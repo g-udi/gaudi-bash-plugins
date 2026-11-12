@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Basic url handling and manipulation functions'
 
@@ -13,7 +14,9 @@ function slugify() {
 	local SLUG
 
 	if [[ -z $TXT ]]; then
-		read -rp "Enter the valid string: " TXT
+		# printf + read: `read -p` means something else in zsh
+		printf '%s' "Enter the valid string: "
+		read -r TXT
 	fi
 
 	# Pass 1 - Clean the url

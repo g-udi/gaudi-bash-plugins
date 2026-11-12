@@ -32,7 +32,7 @@ _gif_gnu_getopt () {
 
 v2gif () {
   about 'Converts a .mov/.avi/.mp4 file into an into an animated GIF.'
-  group 'GIF'
+  group 'gif'
   param '1: MOV/AVI/MP4 file name(s)'
   param '2: -w <num> ; Optional: max width in pixels'
   param '3: -l <num> ; Optional: extra lossy level for smaller files (80-200 make sense, needs giflossy instead of gifsicle)'
@@ -48,11 +48,12 @@ v2gif () {
   example '$ v2gif -dh *.avi'
   example '$ v2gif -thw 600 *.avi *.mov'
 
-  local convert ffmpeg mediainfo gifsicle getopt
+  local convert ffmpeg mediainfo gifsicle getopt file
 
   convert=$(which convert)     ; [[ -x "$convert" ]]   || { echo "No convert found!" ; return 2 ;}
   ffmpeg=$(which ffmpeg)       ; [[ -x "$ffmpeg" ]]    || { echo "No ffmpeg found!" ; return 2 ;}
-  mediainfo=$(which mediainfo) ; [[ -x "$mediainfo" ]] || { echo "No mediainfo found!" ; return 2 ;}
+  # mediainfo is optional: without it the default FPS is used
+  mediainfo=$(command -v mediainfo 2> /dev/null)
   gifsicle=$(which gifsicle)   ; [[ -x "$gifsicle" ]]  || { echo "No gifsicle found!" ; return 2 ;}
   getopt=$(_gif_gnu_getopt)    ; [[ -x "$getopt" ]]    || { echo "No GNU-getopt found!" ; return 2 ;}
 
@@ -130,6 +131,10 @@ v2gif () {
         make_webm="true"
         shift
         ;;
+      *)
+        # Never loop on something getopt let through
+        break
+        ;;
     esac
   done
 
@@ -167,8 +172,11 @@ v2gif () {
     else
       fps=$defaultfps
       if [[ -x $mediainfo ]] ; then
-        fps=$($mediainfo "$file" | grep "Frame rate   " |sed 's/.*: \([0-9.]\+\) .*/\1/' | head -1)
-        [[ -z "$fps" ]] && fps=$($mediainfo "$file" | grep "Minimum frame rate" |sed 's/.*: \([0-9.]\+\) .*/\1/' | head -1)
+        # sed -E and -n ... p: works with BSD and GNU sed, and prints nothing
+        # when the line does not hold a number
+        fps=$($mediainfo "$file" | grep "Frame rate   " | sed -nE 's/.*: ([0-9.]+) .*/\1/p' | head -1)
+        [[ -z "$fps" ]] && fps=$($mediainfo "$file" | grep "Minimum frame rate" | sed -nE 's/.*: ([0-9.]+) .*/\1/p' | head -1)
+        [[ -z "$fps" ]] && fps=$defaultfps
       fi
     fi
 
@@ -207,7 +215,7 @@ v2gif () {
 
 any2webm () {
   about 'Converts an movies and Animated GIF files into an into a modern quality WebM video.'
-  group 'GIF'
+  group 'gif'
   param '1: GIF/video file name(s)'
   param '2: -s <WxH> ; Optional: set <W>idth and <H>eight in pixels'
   param '3: -d       ; Optional: delete the original file if succeeded'
@@ -218,15 +226,15 @@ any2webm () {
   example '$ any2webm foo.gif'
   example '$ any2webm *.mov -b 1.5M -s 600x480'
 
-  local ffmpeg getopt
+  local ffmpeg getopt file
 
   ffmpeg=$(which ffmpeg)    ; [[ -x "$ffmpeg" ]] || { echo "No ffmpeg found!" ; return 2 ;}
   getopt=$(_gif_gnu_getopt) ; [[ -x "$getopt" ]] || { echo "No GNU-getopt found!" ; return 2 ;}
 
-  # Parse the options
+  # Parse the options (the same ones the case below handles)
   local args
 
-  if ! args=$($getopt -l alert -l "bandwidth:" -l "width:" -l del,delete -l tag -l "fps:" -l webm -o "a:b:w:f:dt" -- "$@"); then
+  if ! args=$($getopt -l "alert:" -l "bandwidth:" -l "size:" -l del,delete -l tag -l "fps:" -o "a:b:s:f:dt" -- "$@"); then
     echo 'Terminating...' >&2
     return 2
   fi
@@ -279,11 +287,15 @@ any2webm () {
         alert="$2"
         shift 2
         ;;
+      *)
+        # Never loop on something getopt let through
+        break
+        ;;
     esac
   done
 
   if [[ -z "$*" ]]; then
-    echo "$(tput setaf 1)No input files given. Example: any2webm file [file...] [-w <max width (pixels)>] < $(tput sgr 0)"
+    echo "$(tput setaf 1)No input files given. Example: any2webm file [file...] [-s <width>x<height>] [-b <bandwidth>] $(tput sgr 0)"
     return 1
   fi
 

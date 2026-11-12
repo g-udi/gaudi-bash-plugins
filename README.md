@@ -1,6 +1,6 @@
 # gaudi-bash plugins
 
-This repo contains a submodule for [gaudi-bash](https://github.com/g-udi/gaudi-bash) with all the plugins it loads.
+This repo holds the plugins that [gaudi-bash](https://github.com/g-udi/gaudi-bash) and [gaudi-shell](https://github.com/g-udi/gaudi-shell) load. Both frameworks include it as a git submodule.
 
 ## Host contract
 
@@ -9,11 +9,14 @@ The files in `lib/` are shared, byte for byte, by [gaudi-bash](https://github.co
 | Name | Meaning |
 | --- | --- |
 | `cite`, `about-alias`, `about-plugin`, `about-completion`, `about`, `group`, `param`, `example`, `priority` | metadata read by `show`, `search`, `help` and `enable` |
-| `_command_exists <name>` | true when `<name>` is anything the shell can run (function, alias, builtin or program); logs an error otherwise |
-| `_binary_exists <name>` | true only when `<name>` is a program on `PATH`; a function or an alias does not count |
+| `_command_exists <name>` | true when `<name>` is anything the shell can run (function, alias, builtin or program); logs an error otherwise, so it is for things that must be there |
+| `_binary_exists <name>` | true only when `<name>` is a program on `PATH`; a function or an alias does not count. The probe for an optional tool (use `command -v <name>` when a function should count too) |
 | `_homebrew-check` | true when Homebrew is installed; sets `GAUDI_HOST_HOMEBREW_PREFIX` |
 | `pathmunge <dir> [after]` | add a directory to `PATH` once |
 | `_log_debug`, `_log_warning`, `_log_error` | logging |
+| `_read_input <question>` | asks a yes/no question and leaves the answer in `REPLY` (`y` or `Y` means yes) |
+| `_array-contains <item> <element>...` | true when `<item>` is one of the elements |
+| `NC`, `BLACK`, `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE` and their `BOLD_` forms | colour escape sequences, empty when colours are off; `NC` resets. Print them through a `printf` format string or `echo -e` |
 | `GAUDI_HOST_NAME` | the framework's name (`gaudi-bash` or `gaudi-shell`), for messages and cache folders |
 | `GAUDI_HOST_COMMAND` | the command its users type (`gbash` or `gshell`) |
 | `GAUDI_HOST_HOME` | its install directory; `components/enabled` and `components/custom` live under it |
@@ -21,7 +24,7 @@ The files in `lib/` are shared, byte for byte, by [gaudi-bash](https://github.co
 | `GAUDI_HOST_HOMEBREW_PREFIX` | the Homebrew prefix, empty until `_homebrew-check` or the brew plugin has found it |
 | `_gaudi_host_setting <NAME>` | prints the user's setting `<NAME>` (for example `HTTP_PROXY`): `GAUDI_<NAME>`, otherwise the framework's own `GAUDI_BASH_<NAME>` or `GAUDI_SHELL_<NAME>` |
 
-Each framework defines these once, in its `lib/helpers/utils.bash`. Keep every file loadable by bash 3.2 (no `mapfile`, `declare -A`, `${var,,}`, `&>>` or negative array indexes) unless it only makes sense in bash 4, and guard anything that cannot work in zsh with `[[ -n "${ZSH_VERSION:-}" ]]`.
+Each framework defines these once, in its `lib/helpers/utils.bash`. Keep every file loadable by bash 3.2 (no `mapfile`, `declare -A`, `${var,,}`, `&>>` or negative array indexes) unless it only makes sense in bash 4, and guard anything that cannot work in zsh with `[[ -n "${ZSH_VERSION:-}" ]]` (a file that only makes sense in bash starts with `[[ -n "${BASH_VERSION:-}" ]] || return 0`). In zsh arrays start at index 1, unquoted variables are not split into words, and `read -p`, `read -a` and `type -P` mean something else: walk arrays by value, read lines with `while IFS= read -r`, and prompt with `printf` followed by `read -r`. Nothing slow may run when a file loads: no `$(tool ...)` at the top level when the environment or a first-use stub can do the job.
 
 ## Checklist
 
@@ -39,7 +42,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 ## Plugins
 
 - [**alias-completion**](/lib/alias-completion.plugins.bash): Automatic completion of aliases
-- [**atuin**](/lib/atuin.plugins.bash): Load Atuin! The magical shell history via ble.sh
+- [**atuin**](/lib/atuin.plugins.bash): Load Atuin! The magical shell history (via ble.sh in bash)
 - [**autojump**](/lib/autojump.plugins.bash): Autojump configuration
 - [**aws**](/lib/aws.plugins.bash): AWS helper functions
 - [**base**](/lib/base.plugins.bash): Miscellaneous base tools
@@ -82,7 +85,7 @@ about-plugin 'Autojump configuration [ref: https://github.com/wting/autojump]'
 - [**latex**](/lib/latex.plugins.bash): Add mactex to the path if its present
 - [**man**](/lib/man.plugins.bash): Colorize man pages for better readability
 - [**nginx**](/lib/nginx.plugins.bash): Manage your nginx service
-- [**node**](/lib/node.plugins.bash): Node.js helper functions
+- [**node**](/lib/node.plugins.bash): Add the bin folder of a custom npm prefix to PATH
 - [**nvm**](/lib/nvm.plugins.bash): Node version manager configuration (lazy-loaded for fast startup)
 - [**osx**](/lib/osx.plugins.bash): OSX specific functions
 - [**percol**](/lib/percol.plugins.bash): Search & Select history with percol

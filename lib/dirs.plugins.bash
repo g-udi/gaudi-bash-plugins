@@ -27,7 +27,7 @@ alias po="popd"
 
 dirs-help () {
   about 'Directory navigation alias usage'
-  group 'Dirs'
+  group 'dirs'
 
   echo "Directory Navigation Alias Usage"
   echo
@@ -62,7 +62,7 @@ alias L='cat ~/.dirs'
 G () {
     about 'Goes to destination dir'
     example '$ G ..'
-    group 'Dirs'
+    group 'dirs'
 
     cd "${1:-$(pwd)}" || return ;
 }
@@ -71,9 +71,9 @@ G () {
 S () {
     about 'save a bookmark'
     example '$ S mybkmrk'
-    group 'Dirs'
+    group 'dirs'
 
-    [[ $# -eq 1 ]] || { echo "${FUNCNAME[0]} function requires 1 argument"; return 1; }
+    [[ $# -eq 1 ]] || { echo "S function requires 1 argument"; return 1; }
 
     # delete only the bookmark with this exact name (lines are name="path")
     local name
@@ -88,9 +88,9 @@ S () {
 R () {
     about 'Remove a bookmark'
     example '$ R mybkmrk'
-    group 'Dirs'
+    group 'dirs'
 
-    [[ $# -eq 1 ]] || { echo "${FUNCNAME[0]} function requires 1 argument"; return 1; }
+    [[ $# -eq 1 ]] || { echo "R function requires 1 argument"; return 1; }
 
     # delete only the bookmark with this exact name (lines are name="path")
     local name
@@ -102,5 +102,9 @@ R () {
 # Update bookmark stack
 alias U='source ~/.dirs'
 
-# Set the Bash option so that no '$' is required when using the above facility
-shopt -s cdable_vars
+# Set the shell option so that no '$' is required when using the above facility
+if [[ -n "${ZSH_VERSION:-}" ]]; then
+  setopt cdable_vars
+else
+  shopt -s cdable_vars
+fi

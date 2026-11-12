@@ -23,6 +23,16 @@ _go_pathmunge_wrap () {
   done
 }
 
-export GOROOT="${GOROOT:-$(go env GOROOT)}"
-export GOPATH="${GOPATH:-$(go env GOPATH)}"
+# Values already in the environment are kept. `go` is only asked for what is
+# missing, in a single call (one line per name, in the order given).
+if [[ -z "${GOROOT:-}" || -z "${GOPATH:-}" ]]; then
+  _go_env="$(go env GOROOT GOPATH 2> /dev/null)"
+  _go_newline='
+'
+  : "${GOROOT:=${_go_env%%"$_go_newline"*}}"
+  : "${GOPATH:=${_go_env#*"$_go_newline"}}"
+  unset _go_env _go_newline
+fi
+export GOROOT GOPATH
 _go_pathmunge_wrap "${GOPATH}:${GOROOT}"
+unset -f _go_pathmunge_wrap

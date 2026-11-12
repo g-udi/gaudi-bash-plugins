@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+
 cite about-plugin
 about-plugin 'Alert (BEL) when a command takes longer than a threshold to complete'
 
